@@ -1,9 +1,12 @@
 local line_horizontal = {}
 
-function line_horizontal.move(line_start, line_end, distance)
+function line_horizontal.move(vim_start, vim_end, distance)
   if vim.o.modifiable == 0 or distance == 0 then
     return false
   end
+
+  local line_start = vim.fn.line(vim_start)
+  local line_end = vim.fn.line(vim_end)
 
   local undo = require('gomove.undo')
 
@@ -25,10 +28,13 @@ function line_horizontal.move(line_start, line_end, distance)
 end
 
 
-function line_horizontal.duplicate(line_start, line_end, count)
+function line_horizontal.duplicate(vim_start, vim_end, count)
   if vim.o.modifiable == 0 or count == 0 then
     return false
   end
+
+  local line_start = vim.fn.line(vim_start)
+  local line_end = vim.fn.line(vim_end)
 
   local utils = require("gomove.utils")
   local lines_between = utils.range(line_start, line_end)

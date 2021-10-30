@@ -47,4 +47,16 @@ function utils.contains_fold(startnum, endnum)
   return (next(result) and true or false), result
 end
 
+function utils.go_to(line, col)
+  if line > vim.fn.line("$") then
+    local count = line - vim.fn.line("$")
+    local prev_virtualedit = vim.o.virtualedit
+    vim.o.virtualedit="all"
+    vim.fn.cursor(vim.fn.line("$"), col)
+    vim.cmd('normal!'..count..'o')
+    vim.o.virtualedit=prev_virtualedit
+  end
+  vim.fn.cursor(line, col)
+end
+
 return utils

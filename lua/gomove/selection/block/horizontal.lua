@@ -1,11 +1,11 @@
 local block_horizontal = {}
 
-function block_horizontal.move(pos_start, pos_end, distance)
+function block_horizontal.move(vim_start, vim_end, distance)
   if vim.o.modifiable == 0 or distance == 0 then
     return false
   end
 
-  local temp_cols = {pos_start[2], pos_end[2]}
+  local temp_cols = {vim.fn.col(vim_start), vim.fn.col(vim_end)}
   local col_start = math.min(unpack(temp_cols))
   local col_end = math.max(unpack(temp_cols))
   local width = col_end - col_start + 1
@@ -16,7 +16,7 @@ function block_horizontal.move(pos_start, pos_end, distance)
 
   local opts = require("gomove.config").opts
   if going_right and not opts.move_past_end_of_line then
-    local temp_lines = vim.fn.getline(pos_start[1], pos_end[1])
+    local temp_lines = vim.fn.getline(vim_start, vim_end)
     local shortest = math.min(unpack(vim.fn.map(temp_lines, "strwidth(v:val)")))
     if col_end < shortest then
       destn_start = math.min(destn_start, shortest-width+1)
@@ -34,7 +34,7 @@ function block_horizontal.move(pos_start, pos_end, distance)
   local undo = require("gomove.undo")
   undo.Handle(
     undo.BlockState(
-      vim.fn.getpos(pos_start), vim.fn.getpos(pos_end), destn_start
+      vim.fn.getpos(vim_start), vim.fn.getpos(vim_end), destn_start
     ), distance
   )
   vim.cmd("silent! normal! \""..register.."x")
@@ -55,12 +55,12 @@ function block_horizontal.move(pos_start, pos_end, distance)
 end
 
 
-function block_horizontal.duplicate(pos_start, pos_end, count)
+function block_horizontal.duplicate(vim_start, vim_end, count)
   if vim.o.modifiable == 0 or count == 0 then
     return false
   end
 
-  local temp_cols = {vim.fn.col(pos_start), vim.fn.col(pos_end)}
+  local temp_cols = {vim.fn.col(vim_start), vim.fn.col(vim_end)}
   local col_start = math.min(unpack(temp_cols))
   local col_end = math.max(unpack(temp_cols))
   local width = col_end - col_start
