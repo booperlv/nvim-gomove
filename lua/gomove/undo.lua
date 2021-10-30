@@ -1,8 +1,8 @@
 local undo = {}
 
-function undo.LineState(start_line, end_line, state)
+function undo.LineState(line_start, line_end, state)
   local content = vim.fn.getbufline(
-    vim.fn.bufnr("%"), start_line, end_line
+    vim.fn.bufnr("%"), line_start, line_end
   )
   for index, value in ipairs(content) do
     --Remove any whitespace at the start of the character
@@ -12,12 +12,12 @@ function undo.LineState(start_line, end_line, state)
   return {content = content, state = state}
 end
 
-function undo.BlockState(start_pos, end_pos, state)
+function undo.BlockState(pos_start, pos_end, state)
   --We are assuming here that the state"s being fed are getpos() positions.
   --What we are basically doing are harvesting the columns and lines from
   --the table returned from vim cursor functions.
-  local lines = {start_pos[2], end_pos[2]}
-  local columns = {start_pos[3], end_pos[3]}
+  local lines = {pos_start[2], pos_end[2]}
+  local columns = {pos_start[3], pos_end[3]}
     local selection_content = vim.fn.getbufline(
       vim.fn.bufnr("%"),
       math.min(unpack(lines)),

@@ -4,11 +4,11 @@
 
   - [ ] lines (handles lines & fold selections)
     - [ ] vertical.lua (move, duplicate)
-    - [ ] horizontal.lua (move, duplicate)
+    - [+] horizontal.lua (move, duplicate)
     
   - [ ] blocks (handles block selections)
     - [ ] vertical.lua (move, duplicate)
-    - [ ] horizontal.lua (move, duplicate)
+    - [+] horizontal.lua (move, duplicate)
     
   - [ ] motions (handles anything as long we can del-paste to new position)
   <!-- this might have to support/take into account a few plugins such as hop,

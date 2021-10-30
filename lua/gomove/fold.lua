@@ -1,18 +1,18 @@
 local fold = {}
 
--- I need to go move (distance), from (start), (end).
+-- "I need to go move (distance), from (start), (end).
 -- Where do you think I should go knowing what you know?"
 -- :: int:destination_low, int:destination_high, bool:did_find_a_fold
-function fold.Handle(distance, start_low, start_high)
+function fold.Handle(start_low, start_high, distance)
   local going_down = (distance > 0)
   local height = start_high - start_low
 
   --Normally, You would simply go to these locations
-  local base_destn_low = start_low + distance
-  local base_destn_high = start_high + distance
+  local destn_base_low = start_low + distance
+  local destn_base_high = start_high + distance
 
   local utils = require("gomove.utils")
-  local lines_between = utils.range(base_destn_low, base_destn_high)
+  local lines_between = utils.range(destn_base_low, destn_base_high)
 
   --But, we need to check first if there are any lines that have folds on them.
   local line_of_contact
@@ -34,7 +34,7 @@ function fold.Handle(distance, start_low, start_high)
 
   --If there aren't any lines of contact then just return the base destination
   if not line_of_contact then
-    return base_destn_low, base_destn_high, false
+    return destn_base_low, destn_base_high, false
   end
 
   --If there are lines_of_contact,
@@ -44,13 +44,13 @@ function fold.Handle(distance, start_low, start_high)
   if going_down then
     vim.fn.cursor(line_of_contact, 1)
     while (vim.fn.foldclosed(".") ~= -1) do
-      vim.cmd('normal! j')
+      vim.cmd("normal! j")
     end
     destn_low = vim.fn.line(".") + line_offset
   else
     vim.fn.cursor(line_of_contact, 1)
     while (vim.fn.foldclosed(".") ~= -1) do
-      vim.cmd('normal! k')
+      vim.cmd("normal! k")
     end
     destn_low = vim.fn.line(".") - height - line_offset
   end
