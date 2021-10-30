@@ -12,14 +12,14 @@ function block_horizontal.move(pos_start, pos_end, distance)
 
   local going_right = (distance > 0)
 
-  local destn_start = math.max(unpack({1, col_start+distance}))
+  local destn_start = math.max(1, col_start+distance)
 
   local opts = require("gomove.config").opts
   if going_right and not opts.move_past_end_of_line then
     local temp_lines = vim.fn.getline(pos_start, pos_end)
     local shortest = math.min(unpack(vim.fn.map(temp_lines, "strwidth(v:val)")))
     if col_end < shortest then
-      destn_start = math.min(unpack({destn_start, shortest-width+1}))
+      destn_start = math.min(destn_start, shortest-width+1)
     else
       destn_start = col_start
     end
@@ -32,7 +32,7 @@ function block_horizontal.move(pos_start, pos_end, distance)
   local old_register_value = vim.fn.getreg("register")
 
   local undo = require("gomove.undo")
-  undo.HandleUndojoin(
+  undo.Handle(
     undo.BlockState(
       vim.fn.getpos(pos_start), vim.fn.getpos(pos_end), destn_start
     ), distance

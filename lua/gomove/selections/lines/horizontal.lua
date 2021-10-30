@@ -19,7 +19,7 @@ function line_horizontal.move(pos_start, pos_end, distance)
   --We set the after and the state_distance to 0 here, so that as long as the
   --content being moved is the same, it will still be undojoined. It doesn't
   --really matter what the distance is line-move-horizontal's case.
-  undo.HandleUndojoin(
+  undo.Handle(
     undo.LineState(line_start, line_end, 0), 0
   )
   vim.cmd("silent! "..line_start..','..line_end..action)
