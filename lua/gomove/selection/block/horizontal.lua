@@ -5,7 +5,7 @@ function block_horizontal.move(pos_start, pos_end, distance)
     return false
   end
 
-  local temp_cols = {vim.fn.col(pos_start), vim.fn.col(pos_end)}
+  local temp_cols = {pos_start[2], pos_end[2]}
   local col_start = math.min(unpack(temp_cols))
   local col_end = math.max(unpack(temp_cols))
   local width = col_end - col_start + 1
@@ -16,7 +16,7 @@ function block_horizontal.move(pos_start, pos_end, distance)
 
   local opts = require("gomove.config").opts
   if going_right and not opts.move_past_end_of_line then
-    local temp_lines = vim.fn.getline(pos_start, pos_end)
+    local temp_lines = vim.fn.getline(pos_start[1], pos_end[1])
     local shortest = math.min(unpack(vim.fn.map(temp_lines, "strwidth(v:val)")))
     if col_end < shortest then
       destn_start = math.min(destn_start, shortest-width+1)
