@@ -16,7 +16,7 @@
     - [ ] handle-motions.lua (get new position of motion and report)
     - [ ] init.lua (move, duplicate)
 
-- mappings
+- [ ] mappings
   - [ ] init.lua
   - [ ] base.lua
   - [ ] smart.lua
