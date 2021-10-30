@@ -4,11 +4,11 @@
 
   - [ ] lines (handles lines & fold selections)
     - [ ] vertical.lua (move, duplicate)
-    - [+] horizontal.lua (move, duplicate)
+    - [x] horizontal.lua (move, duplicate)
     
   - [ ] blocks (handles block selections)
     - [ ] vertical.lua (move, duplicate)
-    - [+] horizontal.lua (move, duplicate)
+    - [ ] horizontal.lua (move, duplicate)
     
   - [ ] motions (handles anything as long we can del-paste to new position)
   <!-- this might have to support/take into account a few plugins such as hop,
@@ -21,10 +21,10 @@
   - [ ] base.lua
   - [ ] smart.lua
 
-- [+] utils.lua (ContainsFold, GoTo, Range and such things)
-- [+] fold.lua (give a vertical "distance, starting, end" to report a position past folds)
+- [x] utils.lua (ContainsFold, GoTo, Range and such things)
+- [x] fold.lua (give a vertical "distance, starting, end" to report a position past folds)
 
-- [+] undo.lua (undo/undo parse handling)
+- [x] undo.lua (undo/undo parse handling)
 
-- [+] config.lua (handle configuration/settings)
-- [+] init.lua (interface to config/setup function)
+- [x] config.lua (handle configuration/settings)
+- [x] init.lua (interface to config/setup function)
