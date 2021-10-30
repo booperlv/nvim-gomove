@@ -1,6 +1,6 @@
 ### core / nvim-gomove
 
-- [ ] gomove-selections
+- [ ] selections
 
   - [ ] lines (handles lines & fold selections)
     - [ ] vertical.lua (move, duplicate)
