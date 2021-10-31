@@ -40,15 +40,14 @@ function fold.Handle(start_low, start_high, distance)
   --If there are lines_of_contact,
   --"normal! j" or "normal! k" past them.
   local destn_low
-  local line_offset = distance - 1
+  local line_offset = math.abs(distance) - 1
+  vim.fn.cursor(line_of_contact, 1)
   if going_down then
-    vim.fn.cursor(line_of_contact, 1)
-    while (vim.fn.foldclosed(".") ~= -1) do
+    while (vim.fn.foldclosedend(".") ~= -1) do
       vim.cmd("normal! j")
     end
     destn_low = vim.fn.line(".") + line_offset
   else
-    vim.fn.cursor(line_of_contact, 1)
     while (vim.fn.foldclosed(".") ~= -1) do
       vim.cmd("normal! k")
     end
