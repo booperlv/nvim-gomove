@@ -12,7 +12,7 @@ function block_vertical.move(vim_start, vim_end, distance)
   local utils = require('gomove.utils')
   if utils.contains_fold(line_start, line_end) then
     print('Go-Move-Block does not support moving folds!')
-    return
+    return false
   end
 
   local col_start = vim.fn.col(vim_start)
@@ -182,13 +182,82 @@ function block_vertical.move(vim_start, vim_end, distance)
   end
 
   vim.b.gomove_lines_with_trailing_whitespace = new_lines_with_trailing_whitespace
-  -- print(
-  --   low_end, high_end,
-  --   (did_undojoin and 'did undojoin' or 'did not undojoin'),
-  --   -- vim.inspect(all_pos_between),
-  --   vim.inspect(lines_length_prior)
-  --   -- vim.inspect(vim.b.gomove_lines_with_trailing_whitespace)
-  -- )
+
+  --Set new position
+  vim.fn.cursor(destn_line_start, destn_col_start)
+  vim.cmd('normal! m[')
+  vim.fn.cursor(destn_line_start+height, destn_col_start+width)
+  vim.cmd('normal! m]')
+
+  return true
+end
+
+
+function block_vertical.duplicate(vim_start, vim_end, count)
+  if vim.o.modifiable == 0 or count == 0 then
+    return false
+  end
+
+  local line_start = vim.fn.line(vim_start)
+  local line_end = vim.fn.line(vim_end)
+
+  local utils = require('gomove.utils')
+  if utils.contains_fold(line_start, line_end) then
+    print('Go-Dup-Block does not support moving folds!')
+    return false
+  end
+
+  local going_down = (count > 0)
+
+  local height = line_end - line_start
+
+  local col_start = vim.fn.col(vim_start)
+  local col_end = vim.fn.col(vim_end)
+  local width = col_end - col_start
+
+  local old_pos = vim.fn.winsaveview()
+
+  local destn_line_start = line_start
+  local destn_line_end = line_start + height
+  local destn_col_start = col_start
+
+
+  --Deleting and Pasting
+
+  vim.fn.winrestview(old_pos)
+
+  local old_virtualedit = vim.o.virtualedit
+  vim.o.virtualedit = "all"
+
+  local register = 'z'
+  local old_register_value = vim.fn.getreg(register)
+  vim.cmd('silent! normal! "'..register..'x')
+  vim.cmd('silent! normal! "'..register..'P')
+
+  local amount_of_times_done = 1
+
+  local fold = require('gomove.fold')
+  while (amount_of_times_done <= math.abs(count)) do
+    destn_line_start, destn_line_end = fold.Handle(
+      destn_line_start, destn_line_end,
+      (going_down and 1 or -1)
+    )
+
+    --Add cases to handle invalid values
+    if destn_line_start < 0 then
+      destn_line_start = 1
+    elseif destn_line_start + height > vim.fn.line('$') then
+      destn_line_start = vim.fn.line('$') - height
+    end
+
+    vim.fn.cursor(destn_line_start, destn_col_start)
+    vim.cmd('silent! normal! "'..register..'P')
+
+    amount_of_times_done = amount_of_times_done + 1
+  end
+
+  vim.o.virtualedit = old_virtualedit
+  vim.fn.setreg(register, old_register_value)
 
   --Set new position
   vim.fn.cursor(destn_line_start, destn_col_start)
