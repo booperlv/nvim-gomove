@@ -35,27 +35,13 @@ function block_vertical.move(vim_start, vim_end, distance)
 
   local fold = require('gomove.fold')
   local destn_line_start, destn_line_end = fold.Handle(
-    line_start, line_start, distance
+    line_start, line_end, distance
   )
-
-  local opts = require('gomove.config').opts
 
   --If there is no actual movement, stop right here and don't do anything else.
   if line_start == destn_line_start and line_end == destn_line_end then
     return false
   end
-
-  --Add cases to handle invalid values
-  if destn_line_start < 0 then
-    destn_line_start = 1
-  elseif destn_line_start + height > vim.fn.line('$') then
-    if opts.move_past_end_of_file then
-      destn_line_start = destn_line_start
-    else
-      destn_line_start = vim.fn.line('$') - height
-    end
-  end
-  destn_line_end = destn_line_start + height
 
   --State saving for undojoin
 
@@ -242,13 +228,6 @@ function block_vertical.duplicate(vim_start, vim_end, count)
       destn_line_start, destn_line_end,
       (going_down and 1 or -1)
     )
-
-    --Add cases to handle invalid values
-    if destn_line_start < 0 then
-      destn_line_start = 1
-    elseif destn_line_start + height > vim.fn.line('$') then
-      destn_line_start = vim.fn.line('$') - height
-    end
 
     vim.fn.cursor(destn_line_start, destn_col_start)
     vim.cmd('silent! normal! "'..register..'P')

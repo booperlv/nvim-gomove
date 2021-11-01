@@ -18,6 +18,15 @@ function utils.tables_identical(t1, t2)
   return true
 end
 
+function utils.index_of(table, value)
+  for k, v in ipairs(table) do
+    if v == value then
+      return k
+    end
+  end
+  return nil
+end
+
 function utils.range(from, to)
   local result = {}
   local counter = from
