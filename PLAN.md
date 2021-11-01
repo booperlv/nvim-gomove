@@ -4,17 +4,27 @@
 
   - [ ] lines (handles lines & fold selections)
     - [ ] vertical.lua (move, duplicate)
+      - [+] move
+      - [ ] duplicate
     - [x] horizontal.lua (move, duplicate)
+      - [+] move
+      - [+] duplicate
     
   - [+] blocks (handles block selections)
     - [+] vertical.lua (move, duplicate)
+      - [+] move
+      - [+] duplicate
     - [+] horizontal.lua (move, duplicate)
+      - [+] move
+      - [+] duplicate
     
   - [ ] motions (handles anything as long we can del-paste to new position)
   <!-- this might have to support/take into account a few plugins such as hop,
   lightspeed etc.-->
     - [ ] handle-motions.lua (get new position of motion and report)
     - [ ] init.lua (move, duplicate)
+      - [ ] move
+      - [ ] duplicate
 
 - [ ] mappings
   - [ ] init.lua

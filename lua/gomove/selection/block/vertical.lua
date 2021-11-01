@@ -27,8 +27,6 @@ function block_vertical.move(vim_start, vim_end, distance)
     return false
   end
 
-  local old_pos = vim.fn.winsaveview()
-
   --Compute destination line
 
   local destn_col_start = col_start
@@ -107,8 +105,6 @@ function block_vertical.move(vim_start, vim_end, distance)
   end
 
   --Deleting and Pasting
-
-  vim.fn.winrestview(old_pos)
 
   local old_virtualedit = vim.o.virtualedit
   vim.o.virtualedit = "all"
@@ -201,16 +197,12 @@ function block_vertical.duplicate(vim_start, vim_end, count)
   local col_end = vim.fn.col(vim_end)
   local width = col_end - col_start
 
-  local old_pos = vim.fn.winsaveview()
-
   local destn_line_start = line_start
   local destn_line_end = line_start + height
   local destn_col_start = col_start
 
 
   --Deleting and Pasting
-
-  vim.fn.winrestview(old_pos)
 
   local old_virtualedit = vim.o.virtualedit
   vim.o.virtualedit = "all"
