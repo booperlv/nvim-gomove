@@ -22,9 +22,7 @@
   - [ ] smart.lua
 
 - [x] utils.lua (ContainsFold, GoTo, Range and such things)
-- [ ] fold.lua (give a vertical "distance, starting, end" to report a position past folds)
-    Refactor: idea is that we get the "end" key, increment it slowly, and
-    reposition using that.
+- [x] fold.lua (give a vertical "distance, starting, end" to report a position past folds)
 
 - [x] undo.lua (undo/undo parse handling)
 
