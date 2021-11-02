@@ -33,7 +33,8 @@
 
 - [x] utils.lua (ContainsFold, GoTo, Range and such things)
 - [x] fold.lua (give a vertical "distance, starting, end" to report a position past folds)
-  *TODO*: fix folds moving among folds/create own fold function for that
+  *TODO*: add behavior to actually "move along" instead of "move past all" folds
+  when the selection is an actual fold
 
 - [x] undo.lua (undo/undo parse handling)
 

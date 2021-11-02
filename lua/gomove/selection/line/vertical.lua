@@ -11,10 +11,10 @@ function line_vertical.move(vim_start, vim_end, distance)
   local going_down = (distance > 0)
 
   local utils = require("gomove.utils")
-  local selection_fold, folds = utils.contains_fold(line_start, line_end)
+  local selection_has_fold, folds = utils.contains_fold(line_start, line_end)
 
   local fold = require('gomove.fold')
-  local destn_start, destn_end = fold.Handle(
+  local destn_start, destn_end, encountered_fold = fold.Handle(
     line_start, line_end, distance
   )
 
@@ -40,7 +40,16 @@ function line_vertical.move(vim_start, vim_end, distance)
     ), state_distance
   )
 
-  utils.go_to(destn_start, 1)
+  if encountered_fold then
+    -- take into account the odd(?) behavior of :move with folds
+    if going_down then
+      destn_start = destn_start - (1)
+      destn_end = destn_end - (1)
+    else
+      destn_start = destn_start + (1)
+      destn_end = destn_end + (1)
+    end
+  end
 
   vim.cmd(line_start..','..line_end..'move'..destn_start)
 
@@ -73,7 +82,7 @@ function line_vertical.move(vim_start, vim_end, distance)
   elseif opts.reindent_mode == 'none' or opts.reindent_mode == nil then
   end
 
-  if selection_fold then
+  if selection_has_fold then
     for _, position in ipairs(folds) do
       vim.cmd(position[1]..','..position[2]..'foldclose')
     end
