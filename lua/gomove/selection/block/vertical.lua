@@ -125,7 +125,8 @@ function block_vertical.move(vim_start, vim_end, distance)
 
   vim.cmd('silent! normal! "'..register..'x')
 
-  utils.go_to(destn_line_start, destn_col_start)
+  utils.go_to(destn_line_start, destn_col_start, height+1)
+  print(destn_line_start, destn_col_start, vim.fn.line("."))
 
   vim.cmd('silent! normal! "'..register..'P')
 
