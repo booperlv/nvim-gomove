@@ -1,7 +1,7 @@
 local fold = {}
 
 -- I want to move (start_low, start_high) (distance) on the screen.
--- Can you check each line one by one so we can go down?
+-- Can you check each line one by one so we can go to the desired location?
 -- :: int:destination_low, int:destination_high, bool:did_find_a_fold
 function fold.Handle(start_low, start_high, distance)
   local going_down = (distance > 0)

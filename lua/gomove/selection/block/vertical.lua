@@ -5,6 +5,8 @@ function block_vertical.move(vim_start, vim_end, distance)
     return false
   end
 
+  local old_pos = vim.fn.winsaveview()
+
   local line_start = vim.fn.line(vim_start)
   local line_end = vim.fn.line(vim_end)
   local height = line_end - line_start
@@ -112,12 +114,15 @@ function block_vertical.move(vim_start, vim_end, distance)
   local register = 'z'
   local old_register_value = vim.fn.getreg(register)
 
+  vim.fn.winrestview(old_pos)
+
   local undo = require('gomove.undo')
   undo.Handle(
     undo.BlockState(
       vim.fn.getpos(vim_start), vim.fn.getpos(vim_end), state_destn_line_start
     ), state_distance
   )
+
   vim.cmd('silent! normal! "'..register..'x')
 
   utils.go_to(destn_line_start, destn_col_start)

@@ -1,0 +1,1 @@
+require('gomove.mappings').SetMaps()

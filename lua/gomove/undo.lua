@@ -25,8 +25,8 @@ function undo.BlockState(pos_start, pos_end, state)
     )
     -- Substitute each line to their corresponding selection, by cutting off
     -- other characters that are not within the first and last selection.
-    for index, value in ipairs(selection_content) do
-      selection_content[index] = value:sub(
+    for index, line in ipairs(selection_content) do
+      selection_content[index] = line:sub(
         math.min(unpack(columns)),
         math.max(unpack(columns))
       )
@@ -43,13 +43,13 @@ function undo.Handle(new_state, distance)
   vim.b.gomove_state = new_state
 
   local utils = require("gomove.utils")
+  -- print(vim.inspect(old_state), vim.inspect(new_state))
   if utils.tables_identical(new_state.content, old_state.content) then
     if (old_state.state+distance) == new_state.state then
       vim.cmd("silent! undojoin")
       return true
     elseif old_state.state == new_state.state then
-      --We will return true here, even though we will not undojoin. This helps
-      --with the trailing whitespace removal in block move vertical.
+      vim.cmd("silent! undojoin")
       return true
     end
   end

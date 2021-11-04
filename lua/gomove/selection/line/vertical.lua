@@ -5,13 +5,15 @@ function line_vertical.move(vim_start, vim_end, distance)
     return false
   end
 
+  local old_pos = vim.fn.winsaveview()
+
   local line_start = vim.fn.line(vim_start)
   local line_end = vim.fn.line(vim_end)
 
   local going_down = (distance > 0)
 
   local utils = require("gomove.utils")
-  local selection_has_fold, selection_folds = utils.contains_fold(line_start, line_end)
+  local selection_has_fold = utils.contains_fold(line_start, line_end)
 
   local fold = require('gomove.fold')
   local destn_start, destn_end, encountered_fold = fold.Handle(
@@ -67,6 +69,7 @@ function line_vertical.move(vim_start, vim_end, distance)
 
   print('translated is', move_translated_destn)
 
+  vim.fn.winrestview(old_pos)
   vim.cmd(line_start..','..line_end..'move'..move_translated_destn)
 
   --Reindenting

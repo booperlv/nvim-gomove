@@ -28,10 +28,10 @@
       - [ ] move
       - [ ] duplicate
 
-- [ ] mappings
-  - [ ] init.lua
-  - [ ] base.lua
-  - [ ] smart.lua
+- [+] mappings
+  - [+] init.lua
+  - [+] base.lua
+  - [+] smart.lua
 
 - [x] utils.lua (ContainsFold, GoTo, Range and such things)
 - [x] fold.lua (give a vertical "distance, starting, end" to report a position past folds)
