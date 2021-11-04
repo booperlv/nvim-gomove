@@ -36,12 +36,13 @@
   - [+] smart.lua
 
 - [x] utils.lua (ContainsFold, GoTo, Range and such things)
-- [x] fold.lua (give a vertical "distance, starting, end" to report a position past folds)
-  *TODO*: edge cases: fold on top and moving above it
+- [ ] fold.lua (give a vertical "distance, starting, end" to report a position past folds)
+  *TODO*: edge cases: fold on top and moving above it, past file
   *TODO*: add behavior to actually "move along" instead of "move past all" folds
   when the selection is an actual fold
 
 - [x] undo.lua (undo/undo parse handling)
+  *TODO*: do refactor to undo fold-selections
 
 - [x] config.lua (handle configuration/settings)
 - [x] init.lua (interface to config/setup function)

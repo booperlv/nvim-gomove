@@ -35,7 +35,7 @@ function line_vertical.move(vim_start, vim_end, distance)
   local undo = require('gomove.undo')
   undo.Handle(
     undo.LineState(
-      vim_start, vim_end, state_destn_start
+      line_start, line_end, state_destn_start
     ), state_distance
   )
 
@@ -70,6 +70,7 @@ function line_vertical.move(vim_start, vim_end, distance)
   print('translated is', move_translated_destn)
 
   vim.fn.winrestview(old_pos)
+  -- print(line_start, line_end, move_translated_destn)
   vim.cmd(line_start..','..line_end..'move'..move_translated_destn)
 
   --Reindenting

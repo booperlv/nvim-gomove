@@ -1,7 +1,7 @@
 local M = {}
 
 function M.NormalLeft(duplicate, distance)
-  local plugToUse = (duplicate and [[\<Plug>NormalDuplicateBlockLeft]] or [[\<Plug>NormalMoveBlockLeft]])
+  local plugToUse = (duplicate and [[\<Plug>GoNDBlockLeft]] or [[\<Plug>GoNMBlockLeft]])
   vim.cmd('execute "normal'..distance..plugToUse..'"')
 end
 function M.VisualLeft(duplicate, distance)
@@ -9,17 +9,17 @@ function M.VisualLeft(duplicate, distance)
   vim.cmd('normal! gv')
   if mode == 'V' then
     --Visual Line mode uses lines
-    local plugToUse = (duplicate and [[\<Plug>VisualDuplicateLineLeft]] or [[\<Plug>VisualMoveLineLeft]])
+    local plugToUse = (duplicate and [[\<Plug>GoVDLineLeft]] or [[\<Plug>GoVMLineLeft]])
     vim.cmd('execute "normal'..distance..plugToUse..'"')
   else
     --Normal visual, or blockwise all do block movements
-    local plugToUse = (duplicate and [[\<Plug>VisualDuplicateBlockLeft]] or [[\<Plug>VisualMoveBlockLeft]])
+    local plugToUse = (duplicate and [[\<Plug>GoVDBlockLeft]] or [[\<Plug>GoVMBlockLeft]])
     vim.cmd('execute "normal'..distance..plugToUse..'"')
   end
 end
 
 function M.NormalRight(duplicate, distance)
-  local plugToUse = (duplicate and [[\<Plug>NormalDuplicateBlockRight]] or [[\<Plug>NormalMoveBlockRight]])
+  local plugToUse = (duplicate and [[\<Plug>GoNDBlockRight]] or [[\<Plug>GoNMBlockRight]])
   vim.cmd('execute "normal'..distance..plugToUse..'"')
 end
 function M.VisualRight(duplicate, distance)
@@ -27,43 +27,43 @@ function M.VisualRight(duplicate, distance)
   vim.cmd('normal! gv')
   if mode == 'V' then
     --Visual Line mode uses lines
-    local plugToUse = (duplicate and [[\<Plug>VisualDuplicateLineRight]] or [[\<Plug>VisualMoveLineRight]])
+    local plugToUse = (duplicate and [[\<Plug>GoVDLineRight]] or [[\<Plug>GoVMLineRight]])
     vim.cmd('execute "normal'..distance..plugToUse..'"')
   else
     --Normal visual, or blockwise all do block movements
-    local plugToUse = (duplicate and [[\<Plug>VisualDuplicateBlockRight]] or [[\<Plug>VisualMoveBlockRight]])
+    local plugToUse = (duplicate and [[\<Plug>GoVDBlockRight]] or [[\<Plug>GoVMBlockRight]])
     vim.cmd('execute "normal'..distance..plugToUse..'"')
   end
 end
 
 function M.NormalUp(duplicate, distance)
-  local plugToUse = (duplicate and [[\<Plug>NormalDuplicateLineUp]] or [[\<Plug>NormalMoveLineUp]])
+  local plugToUse = (duplicate and [[\<Plug>GoNDLineUp]] or [[\<Plug>GoNMLineUp]])
   vim.cmd('execute "normal'..distance..plugToUse..'"')
 end
 function M.VisualUp(duplicate, distance)
   local mode = vim.fn.visualmode()
   vim.cmd('normal! gv')
   if mode == 'V' then
-    local plugToUse = (duplicate and [[\<Plug>VisualDuplicateLineUp]] or [[\<Plug>VisualMoveLineUp]])
+    local plugToUse = (duplicate and [[\<Plug>GoVDLineUp]] or [[\<Plug>GoVMLineUp]])
     vim.cmd('execute "normal'..distance..plugToUse..'"')
   else
-    local plugToUse = (duplicate and [[\<Plug>VisualDuplicateBlockUp]] or [[\<Plug>VisualMoveBlockUp]])
+    local plugToUse = (duplicate and [[\<Plug>GoVDBlockUp]] or [[\<Plug>GoVMBlockUp]])
     vim.cmd('execute "normal'..distance..plugToUse..'"')
   end
 end
 
 function M.NormalDown(duplicate, distance)
-  local plugToUse = (duplicate and [[\<Plug>NormalDuplicateLineDown]] or [[\<Plug>NormalMoveLineDown]])
+  local plugToUse = (duplicate and [[\<Plug>GoNDLineDown]] or [[\<Plug>GoNMLineDown]])
   vim.cmd('execute "normal'..distance..plugToUse..'"')
 end
 function M.VisualDown(duplicate, distance)
   local mode = vim.fn.visualmode()
   vim.cmd('normal! gv')
   if mode == 'V' then
-    local plugToUse = (duplicate and [[\<Plug>VisualDuplicateLineDown]] or [[\<Plug>VisualMoveLineDown]])
+    local plugToUse = (duplicate and [[\<Plug>GoVDLineDown]] or [[\<Plug>GoVMLineDown]])
     vim.cmd('execute "normal'..distance..plugToUse..'"')
   else
-    local plugToUse = (duplicate and [[\<Plug>VisualDuplicateBlockDown]] or [[\<Plug>VisualMoveBlockDown]])
+    local plugToUse = (duplicate and [[\<Plug>GoVDBlockDown]] or [[\<Plug>GoVMBlockDown]])
     vim.cmd('execute "normal'..distance..plugToUse..'"')
   end
 end

@@ -30,42 +30,39 @@ function fold.Handle(start_low, start_high, distance)
   local old_pos = vim.fn.winsaveview()
   local did_find_a_fold
   local next_position = line_to_first_contact_fold
-  vim.fn.cursor(next_position, 1)
 
   local prev_value
   for _=1, math.abs(distance) do
-    local function move()
-      prev_value = next_position
-      if going_down then
-        vim.cmd("normal! j")
-        next_position = vim.fn.line(".") + height
-      else
-        vim.cmd("normal! k")
-        next_position = vim.fn.line(".") - height
-      end
+    if going_down then
+      next_position = next_position + 1
+    else
+      next_position = next_position - 1
     end
 
-    move()
+    utils.go_to(next_position, 1, height+1)
+
+    prev_value = next_position
 
     if vim.fn.foldclosed(".") ~= -1 then
       did_find_a_fold = true
       while (vim.fn.foldclosed(".") ~= -1) do
-        move()
-        -- Edge case/when fold is on top of file
+        prev_value = next_position
+        if going_down then
+          vim.cmd("normal! j")
+          next_position = vim.fn.line(".") + height
+        else
+          vim.cmd("normal! k")
+          next_position = vim.fn.line(".") - height
+        end
+        -- error catcher for this while loop
         if prev_value == next_position then
-          if next_position == 1 or next_position == 0 then
-            next_position = 0
-            break;
-          else
-            error('Stack Overflow: nvim-gomove, never changing value "'..next_position..'"')
-          end
+          error('Stack Overflow: nvim-gomove, never changing value "'..next_position..'"')
+          break;
         end
       end
     end
   end
   vim.fn.winrestview(old_pos)
-
-  --Invalid value:
 
   --Actually get the destn_start/low instead of the line_to_first_contact_fold
   local destn_low

@@ -43,12 +43,14 @@ function undo.Handle(new_state, distance)
   vim.b.gomove_state = new_state
 
   local utils = require("gomove.utils")
-  -- print(vim.inspect(old_state), vim.inspect(new_state))
+  print(vim.inspect(old_state), vim.inspect(new_state))
   if utils.tables_identical(new_state.content, old_state.content) then
     if (old_state.state+distance) == new_state.state then
+      -- print('state+distance')
       vim.cmd("silent! undojoin")
       return true
     elseif old_state.state == new_state.state then
+      -- print('state=state')
       vim.cmd("silent! undojoin")
       return true
     end

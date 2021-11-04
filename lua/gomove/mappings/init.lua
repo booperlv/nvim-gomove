@@ -65,25 +65,25 @@ function M.SetMaps()
 
 
 
-    {'n', '<Plug>GoNSLeft',  ":<C-u>lua require('gomove.mappings.smart').NormalLeft (false, vim.v.count1)<CR>"},
-    {'n', '<Plug>GoNSDown',  ":<C-u>lua require('gomove.mappings.smart').NormalDown (false, vim.v.count1)<CR>"},
-    {'n', '<Plug>GoNSUp',    ":<C-u>lua require('gomove.mappings.smart').NormalUp   (false, vim.v.count1)<CR>"},
-    {'n', '<Plug>GoNSRight', ":<C-u>lua require('gomove.mappings.smart').NormalRight(false, vim.v.count1)<CR>"},
+    {'n', '<Plug>GoNSMLeft',  ":<C-u>lua require('gomove.mappings.smart').NormalLeft (false, vim.v.count1)<CR>"},
+    {'n', '<Plug>GoNSMDown',  ":<C-u>lua require('gomove.mappings.smart').NormalDown (false, vim.v.count1)<CR>"},
+    {'n', '<Plug>GoNSMUp',    ":<C-u>lua require('gomove.mappings.smart').NormalUp   (false, vim.v.count1)<CR>"},
+    {'n', '<Plug>GoNSMRight', ":<C-u>lua require('gomove.mappings.smart').NormalRight(false, vim.v.count1)<CR>"},
 
-    {'x', '<Plug>GoVSLeft',  ":<C-u>lua require('gomove.mappings.smart').VisualLeft (false, vim.v.count1)<CR>"},
-    {'x', '<Plug>GoVSDown',  ":<C-u>lua require('gomove.mappings.smart').VisualDown (false, vim.v.count1)<CR>"},
-    {'x', '<Plug>GoVSUp',    ":<C-u>lua require('gomove.mappings.smart').VisualUp   (false, vim.v.count1)<CR>"},
-    {'x', '<Plug>GoVSRight', ":<C-u>lua require('gomove.mappings.smart').VisualRight(false, vim.v.count1)<CR>"},
+    {'x', '<Plug>GoVSMLeft',  ":<C-u>lua require('gomove.mappings.smart').VisualLeft (false, vim.v.count1)<CR>"},
+    {'x', '<Plug>GoVSMDown',  ":<C-u>lua require('gomove.mappings.smart').VisualDown (false, vim.v.count1)<CR>"},
+    {'x', '<Plug>GoVSMUp',    ":<C-u>lua require('gomove.mappings.smart').VisualUp   (false, vim.v.count1)<CR>"},
+    {'x', '<Plug>GoVSMRight', ":<C-u>lua require('gomove.mappings.smart').VisualRight(false, vim.v.count1)<CR>"},
 
-    {'n', '<Plug>GoNDLeft',  ":<C-u>lua require('gomove.mappings.smart').NormalLeft (true, vim.v.count1)<CR>"},
-    {'n', '<Plug>GoNDDown',  ":<C-u>lua require('gomove.mappings.smart').NormalDown (true, vim.v.count1)<CR>"},
-    {'n', '<Plug>GoNDUp',    ":<C-u>lua require('gomove.mappings.smart').NormalUp   (true, vim.v.count1)<CR>"},
-    {'n', '<Plug>GoNDRight', ":<C-u>lua require('gomove.mappings.smart').NormalRight(true, vim.v.count1)<CR>"},
+    {'n', '<Plug>GoNSDLeft',  ":<C-u>lua require('gomove.mappings.smart').NormalLeft (true, vim.v.count1)<CR>"},
+    {'n', '<Plug>GoNSDDown',  ":<C-u>lua require('gomove.mappings.smart').NormalDown (true, vim.v.count1)<CR>"},
+    {'n', '<Plug>GoNSDUp',    ":<C-u>lua require('gomove.mappings.smart').NormalUp   (true, vim.v.count1)<CR>"},
+    {'n', '<Plug>GoNSDRight', ":<C-u>lua require('gomove.mappings.smart').NormalRight(true, vim.v.count1)<CR>"},
 
-    {'x', '<Plug>GoVDLeft',  ":<C-u>lua require('gomove.mappings.smart').VisualLeft (true, vim.v.count1)<CR>"},
-    {'x', '<Plug>GoVDDown',  ":<C-u>lua require('gomove.mappings.smart').VisualDown (true, vim.v.count1)<CR>"},
-    {'x', '<Plug>GoVDUp',    ":<C-u>lua require('gomove.mappings.smart').VisualUp   (true, vim.v.count1)<CR>"},
-    {'x', '<Plug>GoVDRight', ":<C-u>lua require('gomove.mappings.smart').VisualRight(true, vim.v.count1)<CR>"},
+    {'x', '<Plug>GoVSDLeft',  ":<C-u>lua require('gomove.mappings.smart').VisualLeft (true, vim.v.count1)<CR>"},
+    {'x', '<Plug>GoVSDDown',  ":<C-u>lua require('gomove.mappings.smart').VisualDown (true, vim.v.count1)<CR>"},
+    {'x', '<Plug>GoVSDUp',    ":<C-u>lua require('gomove.mappings.smart').VisualUp   (true, vim.v.count1)<CR>"},
+    {'x', '<Plug>GoVSDRight', ":<C-u>lua require('gomove.mappings.smart').VisualRight(true, vim.v.count1)<CR>"},
   }
 end
 
