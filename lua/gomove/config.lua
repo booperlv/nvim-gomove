@@ -6,7 +6,6 @@ function config.setup(opts)
   local default_opts = {
     reindent_mode = "vim-move",
     move_past_line = false,
-    move_past_file = false,
     ignore_indent_in_line_horizontal_duplicate = true,
   }
   local utils = require("gomove.utils")

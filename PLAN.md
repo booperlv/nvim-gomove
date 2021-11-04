@@ -4,9 +4,7 @@
 
   - [ ] lines (handles lines & fold selections)
     - [ ] vertical.lua (move, duplicate)
-      - [ ] move
-        *TODO*: last use case - moving line+fold among folds - encountered fold
-        creates issues
+      - [+] move
       - [ ] duplicate
     - [x] horizontal.lua (move, duplicate)
       - [+] move
