@@ -4,7 +4,9 @@
 
   - [ ] lines (handles lines & fold selections)
     - [ ] vertical.lua (move, duplicate)
-      - [+] move
+      - [ ] move
+        *TODO*: last use case - moving line+fold among folds - encountered fold
+        creates issues
       - [ ] duplicate
     - [x] horizontal.lua (move, duplicate)
       - [+] move
@@ -39,4 +41,5 @@
 - [x] undo.lua (undo/undo parse handling)
 
 - [x] config.lua (handle configuration/settings)
+  *TODO*: recheck if the settings actually stay
 - [x] init.lua (interface to config/setup function)

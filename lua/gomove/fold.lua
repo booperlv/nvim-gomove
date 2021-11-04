@@ -8,26 +8,27 @@ function fold.Handle(start_low, start_high, distance)
   local height = start_high - start_low
 
   local utils = require("gomove.utils")
-  local lines_between = utils.range(start_low, start_high)
+
+  local selection_has_fold = utils.contains_fold(start_low, start_high)
+  local line_to_first_contact_fold
   if going_down then
-    -- We will sort lines_between to be descending (loop from bottom to top)
-    table.sort(lines_between, function(a,b) return a > b end)
+    line_to_first_contact_fold = start_high
   else
-    -- We will sort lines_between to be ascending (loop from top to bottom)
-    -- Already ascending
+    line_to_first_contact_fold = start_low
   end
-  local did_find_a_fold
-  local line_to_first_contact_fold = lines_between[1]
 
   --Increment each line one by one, and use normal! j or k when finding a fold
+  local old_pos = vim.fn.winsaveview()
+  local did_find_a_fold
   local destn_low = line_to_first_contact_fold
   for _=1, math.abs(distance) do
-    if going_down then
-      destn_low = destn_low + 1
-    else
-      destn_low = destn_low - 1
-    end
     vim.fn.cursor(destn_low, 1)
+    if going_down then
+      vim.cmd("normal! j")
+    else
+      vim.cmd("normal! k")
+    end
+    destn_low = vim.fn.line(".")
 
     if vim.fn.foldclosed(".") ~= -1 then
       did_find_a_fold = true
@@ -41,6 +42,15 @@ function fold.Handle(start_low, start_high, distance)
         end
       end
     end
+  end
+  vim.fn.winrestview(old_pos)
+
+  --Actually get the destn_start/low instead of the line_to_first_contact_fold
+  if going_down
+    and not did_find_a_fold
+    and not selection_has_fold
+  then
+    destn_low = destn_low-height
   end
 
   --Add cases to handle invalid values

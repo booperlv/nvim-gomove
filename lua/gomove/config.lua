@@ -14,6 +14,7 @@ function config.setup(opts)
     opts == nil and default_opts
     or utils.merge(default_opts, opts)
   )
+  print(vim.inspect(config.opts))
   return config.opts
 end
 
