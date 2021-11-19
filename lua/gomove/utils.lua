@@ -56,15 +56,13 @@ function utils.contains_fold(startnum, endnum)
   return (next(result) and true or false), result
 end
 
-function utils.go_to(line, col, ...)
-  local count = math.abs(...)
-  if line > vim.fn.line("$") then
-    vim.cmd('normal!G'..count..'o')
-  elseif line <= 0 then
-    vim.cmd('normal!gg'..count..'O')
+function utils.go_to(line, col, height)
+  if line <= 0 then
+    line = 1
+  elseif line > vim.fn.line("$") then
+    line = vim.fn.line("$") - height
   end
   vim.fn.cursor(line, col)
-  return true
 end
 
 return utils

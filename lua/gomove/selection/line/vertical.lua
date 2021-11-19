@@ -15,7 +15,7 @@ function line_vertical.move(vim_start, vim_end, distance)
   local utils = require("gomove.utils")
   local selection_has_fold = utils.contains_fold(line_start, line_end)
 
-  local fold = require('gomove.fold')
+  local fold = require('gomove.fold.line')
   local destn_start, destn_end, encountered_fold = fold.Handle(
     line_start, line_end, distance
   )
@@ -43,31 +43,35 @@ function line_vertical.move(vim_start, vim_end, distance)
 
   --Make up for the oddness of :move
 
-  local height = line_end - line_start
-  if encountered_fold then
+  local move_translated_destn = destn_start
+  if not (destn_start <= 0) then
+    local height = line_end - line_start
+    if encountered_fold then
+      if going_down then
+        destn_start = destn_start - 1
+      else
+        destn_start = destn_start + (height+1)
+      end
+    end
+    destn_end = destn_start + height
+
+    print('encountered fold is', destn_start, destn_end)
+
     if going_down then
-      destn_start = destn_start - 1
+      --if within selection
+      if destn_start >= line_start and destn_start <= line_end then
+        move_translated_destn = destn_end
+      else
+        move_translated_destn = destn_start
+      end
     else
-      destn_start = destn_start + (height+1)
+      move_translated_destn = destn_start-1
     end
-  end
-  destn_end = destn_start + height
 
-  print('encountered fold is', destn_start, destn_end)
-
-  local move_translated_destn
-  if going_down then
-    --if within selection
-    if destn_start >= line_start and destn_start <= line_end then
-      move_translated_destn = destn_end
-    else
-      move_translated_destn = destn_start
-    end
-  else
-    move_translated_destn = destn_start-1
+    print('translated is', move_translated_destn)
   end
 
-  print('translated is', move_translated_destn)
+  -- Move
 
   vim.fn.winrestview(old_pos)
   -- print(line_start, line_end, move_translated_destn)

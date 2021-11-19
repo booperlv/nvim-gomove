@@ -1,10 +1,11 @@
-local fold = {}
+local fold_line = {}
+
+-- LINE VERSION
 
 -- I want to move (start_low, start_high) (distance) on the screen.
 -- Can you check each line one by one so we can go to the desired location?
 -- :: int:destination_low, int:destination_high, bool:did_find_a_fold
-function fold.Handle(start_low, start_high, distance)
-  local utils = require("gomove.utils")
+function fold_line.Handle(start_low, start_high, distance)
   local going_down = (distance > 0)
 
   local function fold_start(num)
@@ -32,31 +33,32 @@ function fold.Handle(start_low, start_high, distance)
   local next_position = line_to_first_contact_fold
 
   local prev_value
+  vim.fn.cursor(next_position, 1)
+
   for _=1, math.abs(distance) do
-    if going_down then
-      next_position = next_position + 1
-    else
-      next_position = next_position - 1
+    local function move()
+      prev_value = next_position
+      if going_down then
+        vim.cmd("normal! j")
+        next_position = vim.fn.line(".") + height
+      else
+        vim.cmd("normal! k")
+        next_position = vim.fn.line(".") - height
+      end
     end
 
-    utils.go_to(next_position, 1, height+1)
-
-    prev_value = next_position
+    move()
 
     if vim.fn.foldclosed(".") ~= -1 then
       did_find_a_fold = true
       while (vim.fn.foldclosed(".") ~= -1) do
-        prev_value = next_position
-        if going_down then
-          vim.cmd("normal! j")
-          next_position = vim.fn.line(".") + height
-        else
-          vim.cmd("normal! k")
-          next_position = vim.fn.line(".") - height
-        end
+        move()
         -- error catcher for this while loop
         if prev_value == next_position then
-          error('Stack Overflow: nvim-gomove, never changing value "'..next_position..'"')
+          if next_position == 1 then
+            next_position = 0
+            break;
+          end
           break;
         end
       end
@@ -72,6 +74,13 @@ function fold.Handle(start_low, start_high, distance)
     destn_low = next_position
   end
 
+  --Invalid values
+  if destn_low <= 0 then
+    destn_low = 0
+  elseif destn_low >= vim.fn.line("$") then
+    destn_low = vim.fn.line("$") - height
+  end
+
   local destn_high = destn_low + height
 
   return destn_low, destn_high,
@@ -79,4 +88,4 @@ function fold.Handle(start_low, start_high, distance)
   (did_find_a_fold and true or false)
 end
 
-return fold
+return fold_line

@@ -5,7 +5,6 @@
   - [ ] lines (handles lines & fold selections)
     - [ ] vertical.lua (move, duplicate)
       - [+] move
-      *TODO*: edge case: top of file is fold
       *TODO*: undojoining of fold-selections
       - [ ] duplicate
     - [x] horizontal.lua (move, duplicate)
@@ -15,9 +14,7 @@
   - [+] blocks (handles block selections)
     - [+] vertical.lua (move, duplicate)
       - [+] move
-      *TODO*: edge case: top of file is fold
       - [+] duplicate
-      *TODO*: edge case: top of file is fold
     - [+] horizontal.lua (move, duplicate)
       - [+] move
       - [+] duplicate
@@ -37,7 +34,6 @@
 
 - [x] utils.lua (ContainsFold, GoTo, Range and such things)
 - [ ] fold.lua (give a vertical "distance, starting, end" to report a position past folds)
-  *TODO*: edge cases: fold on top and moving above it, past file
   *TODO*: add behavior to actually "move along" instead of "move past all" folds
   when the selection is an actual fold
 

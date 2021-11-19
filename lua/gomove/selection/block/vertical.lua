@@ -33,7 +33,7 @@ function block_vertical.move(vim_start, vim_end, distance)
 
   local destn_col_start = col_start
 
-  local fold = require('gomove.fold')
+  local fold = require('gomove.fold.block')
   local destn_line_start, destn_line_end = fold.Handle(
     line_start, line_end, distance
   )
@@ -125,7 +125,7 @@ function block_vertical.move(vim_start, vim_end, distance)
 
   vim.cmd('silent! normal! "'..register..'x')
 
-  utils.go_to(destn_line_start, destn_col_start, line_start-destn_line_start)
+  utils.go_to(destn_line_start, destn_col_start, height)
 
   vim.cmd('silent! normal! "'..register..'P')
 
@@ -219,7 +219,7 @@ function block_vertical.duplicate(vim_start, vim_end, count)
 
   local amount_of_times_done = 1
 
-  local fold = require('gomove.fold')
+  local fold = require('gomove.fold.block')
   while (amount_of_times_done <= math.abs(count)) do
     destn_line_start, destn_line_end = fold.Handle(
       destn_line_start, destn_line_end,
