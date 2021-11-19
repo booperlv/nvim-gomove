@@ -8,9 +8,8 @@ local fold_block = {}
 function fold_block.Handle(start_low, start_high, distance)
   local going_down = (distance > 0)
 
-  local function fold_start(num)
-    return (vim.fn.foldclosed(num) ~= -1
-    and vim.fn.foldclosed(num) or num)
+  local fold_start = function(num)
+    return require("gomove.utils").fold_start(num)
   end
 
   start_low = fold_start(start_low)

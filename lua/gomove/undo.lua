@@ -1,8 +1,11 @@
 local undo = {}
 
 function undo.LineState(line_start, line_end, state)
+  local utils = require("gomove.utils")
   local content = vim.fn.getbufline(
-    vim.fn.bufnr("%"), line_start, line_end
+    vim.fn.bufnr("%"),
+    utils.fold_start(line_start),
+    utils.fold_start(line_end)
   )
   for index, value in ipairs(content) do
     --Remove any whitespace at the start of the character
@@ -43,15 +46,17 @@ function undo.Handle(new_state, distance)
   vim.b.gomove_state = new_state
 
   local utils = require("gomove.utils")
-  print(vim.inspect(old_state), vim.inspect(new_state))
+  print(vim.inspect(old_state), vim.inspect(new_state), distance)
   if utils.tables_identical(new_state.content, old_state.content) then
     if (old_state.state+distance) == new_state.state then
       -- print('state+distance')
       vim.cmd("silent! undojoin")
+      print('did undojoin!')
       return true
     elseif old_state.state == new_state.state then
       -- print('state=state')
       vim.cmd("silent! undojoin")
+      print('did undojoin!')
       return true
     end
   end

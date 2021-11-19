@@ -65,4 +65,9 @@ function utils.go_to(line, col, height)
   vim.fn.cursor(line, col)
 end
 
+function utils.fold_start(num)
+  return (vim.fn.foldclosed(num) ~= -1
+    and vim.fn.foldclosed(num) or num)
+end
+
 return utils

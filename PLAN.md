@@ -7,7 +7,7 @@
       - [+] move
       *TODO*: undojoining of fold-selections
       - [ ] duplicate
-    - [x] horizontal.lua (move, duplicate)
+    - [+] horizontal.lua (move, duplicate)
       - [+] move
       - [+] duplicate
     
@@ -36,6 +36,9 @@
 - [ ] fold.lua (give a vertical "distance, starting, end" to report a position past folds)
   *TODO*: add behavior to actually "move along" instead of "move past all" folds
   when the selection is an actual fold
+  *TODO*: split into the files: main fold - has an argument for block/line
+  instead of seperate files like now, and init - which interfaces main fold
+  file.
 
 - [x] undo.lua (undo/undo parse handling)
   *TODO*: do refactor to undo fold-selections

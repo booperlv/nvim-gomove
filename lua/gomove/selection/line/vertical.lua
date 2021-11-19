@@ -82,37 +82,27 @@ function line_vertical.move(vim_start, vim_end, distance)
   local new_line_start = vim.fn.line("'[")
   local new_line_end = vim.fn.line("']")
 
-  local opts = require("gomove.config").opts
-  if opts.reindent_mode == 'vim-move' then
-    vim.fn.cursor(new_line_start, 1)
+  if not selection_has_fold then
+    local opts = require("gomove.config").opts
+    if opts.reindent_mode == 'vim-move' then
+      vim.fn.cursor(new_line_start, 1)
 
-    local old_indent = vim.fn.indent('.')
-    vim.cmd("silent! normal! ==")
-    local new_indent = vim.fn.indent('.')
+      local old_indent = vim.fn.indent('.')
+      vim.cmd("silent! normal! ==")
+      local new_indent = vim.fn.indent('.')
 
-    if new_line_start < new_line_end and old_indent ~= new_indent then
-      local op = (old_indent < new_indent
-                  and string.rep(">", new_indent - old_indent)
-                  or string.rep("<", old_indent - new_indent))
-      local old_sw = vim.fn.shiftwidth()
-      vim.o.shiftwidth = 1
-      vim.cmd('silent! '..new_line_start+1 ..','..new_line_end..op)
-      vim.o.shiftwidth = old_sw
-    end
-  elseif opts.reindent_mode == 'simple' then
-    vim.cmd('silent!'..new_line_start..','..new_line_end.."normal!==")
-  elseif opts.reindent_mode == 'none' or opts.reindent_mode == nil then
-  end
-
-  --close all folds
-  if selection_has_fold then
-    local destn_has_fold, destn_folds = utils.contains_fold(
-      new_line_start, new_line_end
-    )
-    if destn_has_fold then
-      for _, position in ipairs(destn_folds) do
-        vim.cmd(position[1]..','..position[1]..'foldclose')
+      if new_line_start < new_line_end and old_indent ~= new_indent then
+        local op = (old_indent < new_indent
+          and string.rep(">", new_indent - old_indent)
+          or string.rep("<", old_indent - new_indent))
+        local old_sw = vim.fn.shiftwidth()
+        vim.o.shiftwidth = 1
+        vim.cmd('silent! '..new_line_start+1 ..','..new_line_end..op)
+        vim.o.shiftwidth = old_sw
       end
+    elseif opts.reindent_mode == 'simple' then
+      vim.cmd('silent!'..new_line_start..','..new_line_end.."normal!==")
+    elseif opts.reindent_mode == 'none' or opts.reindent_mode == nil then
     end
   end
 
