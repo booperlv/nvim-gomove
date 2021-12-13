@@ -15,9 +15,9 @@ function line_vertical.move(vim_start, vim_end, distance)
   local utils = require("gomove.utils")
   local selection_has_fold = utils.contains_fold(line_start, line_end)
 
-  local fold = require('gomove.fold.line')
+  local fold = require('gomove.fold')
   local destn_start, destn_end, encountered_fold = fold.Handle(
-    line_start, line_end, distance
+    "line", line_start, line_end, distance
   )
 
   if line_start == destn_start and line_end == destn_end then
@@ -48,7 +48,8 @@ function line_vertical.move(vim_start, vim_end, distance)
     local height = line_end - line_start
     if encountered_fold then
       if going_down then
-        destn_start = destn_start - 1
+        destn_start = (utils.fold_end(destn_start) == destn_start
+          and destn_start - 1 or utils.fold_end(destn_start))
       else
         destn_start = destn_start + (height+1)
       end

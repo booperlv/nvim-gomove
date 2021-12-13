@@ -70,4 +70,9 @@ function utils.fold_start(num)
     and vim.fn.foldclosed(num) or num)
 end
 
+function utils.fold_end(num)
+  return (vim.fn.foldclosedend(num) ~= -1
+    and vim.fn.foldclosedend(num) or num)
+end
+
 return utils
