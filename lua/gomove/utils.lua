@@ -75,4 +75,20 @@ function utils.fold_end(num)
     and vim.fn.foldclosedend(num) or num)
 end
 
+--checks the height of a range based on what user sees
+function utils.user_height(start_range, end_range)
+  local counter = 1
+  local state = start_range
+  while (state <= end_range) do
+    state = state + 1
+    if vim.fn.foldclosedend(state) ~= -1 then
+      state = vim.fn.foldclosedend(state)+1
+      counter = counter + 1
+    else
+      counter = counter + 1
+    end
+  end
+  return counter
+end
+
 return utils

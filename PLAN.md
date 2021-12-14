@@ -4,20 +4,19 @@
 
   - [ ] lines (handles lines & fold selections)
     - [ ] vertical.lua (move, duplicate)
-      - [+] move
-      *TODO*: undojoining of fold-selections
+      - [x] move
       - [ ] duplicate
-    - [+] horizontal.lua (move, duplicate)
-      - [+] move
-      - [+] duplicate
+    - [x] horizontal.lua (move, duplicate)
+      - [x] move
+      - [x] duplicate
     
-  - [+] blocks (handles block selections)
-    - [+] vertical.lua (move, duplicate)
-      - [+] move
-      - [+] duplicate
-    - [+] horizontal.lua (move, duplicate)
-      - [+] move
-      - [+] duplicate
+  - [x] blocks (handles block selections)
+    - [x] vertical.lua (move, duplicate)
+      - [x] move
+      - [x] duplicate
+    - [x] horizontal.lua (move, duplicate)
+      - [x] move
+      - [x] duplicate
     
   - [ ] motions (handles anything as long we can del-paste to new position)
   <!-- this might have to support/take into account a few plugins such as hop,
@@ -27,21 +26,17 @@
       - [ ] move
       - [ ] duplicate
 
-- [+] mappings
-  - [+] init.lua
-  - [+] base.lua
-  - [+] smart.lua
+- [x] mappings
+  - [x] init.lua
+  - [x] base.lua
+  - [x] smart.lua
 
 - [x] utils.lua (ContainsFold, GoTo, Range and such things)
-- [ ] fold.lua (give a vertical "distance, starting, end" to report a position past folds)
+- [x] fold.lua (give a vertical "distance, starting, end" to report a position past folds)
   *TODO*: add behavior to actually "move along" instead of "move past all" folds
-  when the selection is an actual fold
-  *TODO*: split into the files: main fold - has an argument for block/line
-  instead of seperate files like now, and init - which interfaces main fold
-  file.
+  when the selection contains an actual fold
 
 - [x] undo.lua (undo/undo parse handling)
-  *TODO*: do refactor to undo fold-selections
 
 - [x] config.lua (handle configuration/settings)
 - [x] init.lua (interface to config/setup function)

@@ -45,12 +45,16 @@ function line_vertical.move(vim_start, vim_end, distance)
 
   local move_translated_destn = destn_start
   if not (destn_start <= 0) then
-    local height = line_end - line_start
+    local height = utils.user_height(line_start, line_end)
     if encountered_fold then
       if going_down then
         destn_start = (utils.fold_end(destn_start) == destn_start
           and destn_start - 1 or utils.fold_end(destn_start))
       else
+        destn_start = utils.fold_start(destn_start)+(height+1)
+      end
+    else
+      if not going_down then
         destn_start = destn_start + (height+1)
       end
     end

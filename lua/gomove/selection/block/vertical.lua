@@ -9,9 +9,10 @@ function block_vertical.move(vim_start, vim_end, distance)
 
   local line_start = vim.fn.line(vim_start)
   local line_end = vim.fn.line(vim_end)
-  local height = line_end - line_start
 
   local utils = require('gomove.utils')
+  local height = utils.fold_start(line_start, line_end)
+
   if utils.contains_fold(line_start, line_end) then
     print('Go-Move-Block does not support moving folds!')
     return false
@@ -196,7 +197,7 @@ function block_vertical.duplicate(vim_start, vim_end, count)
 
   local going_down = (count > 0)
 
-  local height = line_end - line_start
+  local height = utils.user_height(line_start, line_end)
 
   local col_start = vim.fn.col(vim_start)
   local col_end = vim.fn.col(vim_end)

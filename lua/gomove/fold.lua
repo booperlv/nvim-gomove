@@ -7,7 +7,7 @@ function M.Handle(line_or_block, start_low, start_high, distance)
   start_low = utils.fold_start(start_low)
   start_high = utils.fold_start(start_high)
 
-  local height = start_high - start_low
+  local height = utils.user_height(start_low, start_high)
 
   local line_to_first_contact_fold
   if going_down then
