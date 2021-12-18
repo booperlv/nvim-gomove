@@ -1,6 +1,6 @@
-local block_horizontal = {}
+local bh = {}
 
-function block_horizontal.move(vim_start, vim_end, distance)
+function bh.move(vim_start, vim_end, distance)
   if vim.o.modifiable == 0 or distance == 0 then
     return false
   end
@@ -33,9 +33,7 @@ function block_horizontal.move(vim_start, vim_end, distance)
 
   local undo = require("gomove.undo")
   undo.Handle(
-    undo.BlockState(
-      vim.fn.getpos(vim_start), vim.fn.getpos(vim_end), destn_start
-    ), distance
+    (going_right and "right" or "left")
   )
   vim.cmd("silent! normal! \""..register.."x")
 
@@ -55,7 +53,7 @@ function block_horizontal.move(vim_start, vim_end, distance)
 end
 
 
-function block_horizontal.duplicate(vim_start, vim_end, count)
+function bh.duplicate(vim_start, vim_end, count)
   if vim.o.modifiable == 0 or count == 0 then
     return false
   end
@@ -75,17 +73,19 @@ function block_horizontal.duplicate(vim_start, vim_end, count)
   local old_virtualedit = vim.o.virtualedit
   vim.o.virtualedit = 'all'
 
+  local line = vim.fn.line(".")
+
   local register = 'z'
   local old_register_value = vim.fn.getreg('register')
   vim.cmd('silent! normal! "'..register..'x')
   vim.cmd('silent! normal! "'..register..'P')
 
   if going_right then
-    vim.fn.cursor(vim.fn.line('.'), destn_end)
-    vim.cmd('silent! normal!'..count..'"'..register..'P')
+    vim.fn.cursor(line, destn_end)
+    vim.cmd('silent! normal!'..math.abs(count)..'"'..register..'P')
   else
-    vim.fn.cursor(vim.fn.line('.'), destn_start)
-    vim.cmd('silent! normal!'..count..'"'..register..'p')
+    vim.fn.cursor(line, destn_start)
+    vim.cmd('silent! normal!'..math.abs(count)..'"'..register..'p')
   end
 
   vim.fn.setreg(register, old_register_value)
@@ -94,4 +94,4 @@ function block_horizontal.duplicate(vim_start, vim_end, count)
   return true
 end
 
-return block_horizontal
+return bh

@@ -1,17 +1,18 @@
-local block_vertical = {}
+local bv = {}
 
-function block_vertical.move(vim_start, vim_end, distance)
+function bv.move(vim_start, vim_end, distance)
   if vim.o.modifiable == 0 or distance == 0 then
     return false
   end
 
+  -- initial variables{{{
   local old_pos = vim.fn.winsaveview()
 
   local line_start = vim.fn.line(vim_start)
   local line_end = vim.fn.line(vim_end)
 
   local utils = require('gomove.utils')
-  local height = utils.fold_start(line_start, line_end)
+  local height = utils.user_height(line_start, line_end)
 
   if utils.contains_fold(line_start, line_end) then
     print('Go-Move-Block does not support moving folds!')
@@ -29,14 +30,15 @@ function block_vertical.move(vim_start, vim_end, distance)
   if table.concat(lines_selected) == '' then
     return false
   end
-
-  --Compute destination line
+--}}}
+  --Compute destination line{{{
+  local going_down = (distance > 0)
 
   local destn_col_start = col_start
 
-  local fold = require('gomove.fold')
+  local fold = require('gomove.selection')
   local destn_line_start, destn_line_end = fold.Handle(
-    "block", line_start, line_end, distance
+    "b", line_start, line_end, distance
   )
 
   --If there is no actual movement, stop right here and don't do anything else.
@@ -44,17 +46,17 @@ function block_vertical.move(vim_start, vim_end, distance)
     return false
   end
 
-  --State saving for undojoin
-
-  --Now that the calculation is finished, Since before is always based on
-  --the first cursor position, we can just set state_before to linebefore
-  --and it will not mess up recognizing continuous actions.
-  local state_destn_line_start = destn_line_start
-  --This allows oldState.after + distance == newState.after in the undojoin
-  --to remain true, only in the correct times.
-  local state_distance = destn_line_start - line_start
-
-  --Prepping for trailing whitespace delete
+  --If there is a fold in the destination, open it first
+  local destn_has_fold, destn_folds = utils.contains_fold(
+    destn_line_start, destn_line_end
+  )
+  if destn_has_fold then
+    for _, position in ipairs(destn_folds) do
+      vim.cmd(position[1]..","..position[2].."foldopen")
+    end
+  end
+--}}}
+  --Prepping for trailing whitespace delete{{{
 
   --Get all lines between linebefore and after, and their corresponding lengths.
   --We are keeping the lengths from BEFORE the actual move.
@@ -106,8 +108,8 @@ function block_vertical.move(vim_start, vim_end, distance)
       end
     end
   end
-
-  --Deleting and Pasting
+--}}}
+  --Deleting and Pasting{{{
 
   local old_virtualedit = vim.o.virtualedit
   vim.o.virtualedit = "all"
@@ -119,9 +121,7 @@ function block_vertical.move(vim_start, vim_end, distance)
 
   local undo = require('gomove.undo')
   undo.Handle(
-    undo.BlockState(
-      vim.fn.getpos(vim_start), vim.fn.getpos(vim_end), state_destn_line_start
-    ), state_distance
+    (going_down and "down" or "up")
   )
 
   vim.cmd('silent! normal! "'..register..'x')
@@ -132,8 +132,8 @@ function block_vertical.move(vim_start, vim_end, distance)
 
   vim.o.virtualedit = old_virtualedit
   vim.fn.setreg(register, old_register_value)
-
-  --Trailing whitespace deletion/adding new values
+--}}}
+  --Trailing whitespace deletion/adding new values{{{
 
   --Delete trailing whitespace from previous move
   if next(new_lines_with_trailing_whitespace) ~= nil then
@@ -170,22 +170,23 @@ function block_vertical.move(vim_start, vim_end, distance)
   end
 
   vim.b.gomove_lines_with_trailing_whitespace = new_lines_with_trailing_whitespace
-
-  --Set new position
+--}}}
+  --Set new position{{{
   vim.fn.cursor(destn_line_start, destn_col_start)
   vim.cmd('normal! m[')
-  vim.fn.cursor(destn_line_start+height, destn_col_start+width)
-  vim.cmd('normal! m]')
+  vim.fn.cursor(destn_line_start+(height-1), destn_col_start+width)
+  vim.cmd('normal! m]')--}}}
 
   return true
 end
 
 
-function block_vertical.duplicate(vim_start, vim_end, count)
+function bv.duplicate(vim_start, vim_end, count)
   if vim.o.modifiable == 0 or count == 0 then
     return false
   end
 
+  -- initial variables{{{
   local line_start = vim.fn.line(vim_start)
   local line_end = vim.fn.line(vim_end)
 
@@ -206,9 +207,8 @@ function block_vertical.duplicate(vim_start, vim_end, count)
   local destn_line_start = line_start
   local destn_line_end = line_start + height
   local destn_col_start = col_start
-
-
-  --Deleting and Pasting
+--}}}
+  --Deleting and Pasting{{{
 
   local old_virtualedit = vim.o.virtualedit
   vim.o.virtualedit = "all"
@@ -220,10 +220,10 @@ function block_vertical.duplicate(vim_start, vim_end, count)
 
   local amount_of_times_done = 1
 
-  local fold = require('gomove.fold')
+  local fold = require('gomove.selection')
   while (amount_of_times_done <= math.abs(count)) do
     destn_line_start, destn_line_end = fold.Handle(
-      "block", destn_line_start, destn_line_end,
+      "b", destn_line_start, destn_line_end,
       (going_down and 1 or -1)
     )
 
@@ -235,14 +235,14 @@ function block_vertical.duplicate(vim_start, vim_end, count)
 
   vim.o.virtualedit = old_virtualedit
   vim.fn.setreg(register, old_register_value)
-
-  --Set new position
+--}}}
+  --Set new position{{{
   vim.fn.cursor(destn_line_start, destn_col_start)
   vim.cmd('normal! m[')
   vim.fn.cursor(destn_line_start+height, destn_col_start+width)
-  vim.cmd('normal! m]')
+  vim.cmd('normal! m]')--}}}
 
   return true
 end
 
-return block_vertical
+return bv

@@ -1,26 +1,25 @@
-local line_horizontal = {}
+local lh = {}
 
-function line_horizontal.move(vim_start, vim_end, distance)
+function lh.move(vim_start, vim_end, distance)
   if vim.o.modifiable == 0 or distance == 0 then
     return false
   end
 
+  local going_right = (distance > 0)
+
   local line_start = vim.fn.line(vim_start)
   local line_end = vim.fn.line(vim_end)
 
-  local undo = require('gomove.undo')
-
   local action
-  if distance < 0 then
-    action = string.rep('<', -distance)
-  else
+  if going_right then
     action = string.rep('>', distance)
+  else
+    action = string.rep('<', -distance)
   end
-  --We set the after and the state_distance to 0 here, so that as long as the
-  --content being moved is the same, it will still be undojoined. It doesn't
-  --really matter what the distance is line-move-horizontal's case.
+
+  local undo = require('gomove.undo')
   undo.Handle(
-    undo.LineState(line_start, line_end, 0), 0
+    (going_right and "right" or "left")
   )
   vim.cmd("silent! "..line_start..','..line_end..action)
 
@@ -28,7 +27,7 @@ function line_horizontal.move(vim_start, vim_end, distance)
 end
 
 
-function line_horizontal.duplicate(vim_start, vim_end, count)
+function lh.duplicate(vim_start, vim_end, count)
   if vim.o.modifiable == 0 or count == 0 then
     return false
   end
@@ -48,7 +47,7 @@ function line_horizontal.duplicate(vim_start, vim_end, count)
     local raw_content = vim.fn.getline(line)
     -- Remove whitespace at start of line
     local current_content = (
-      opts.ignore_indent_line_horizontal_duplicate == true
+      opts.ignore_indent_lh_duplicate == true
       and raw_content:gsub('^%s+', '')
       or raw_content
     )
@@ -70,4 +69,4 @@ function line_horizontal.duplicate(vim_start, vim_end, count)
   return true
 end
 
-return line_horizontal
+return lh

@@ -1,0 +1,69 @@
+111111111111111111{{{
+aaaa   bbbb   cccc}}}
+aaaa   bbbb
+aaaa
+aaaa
+
+fold here{{{
+aaaaaaaaaaaaaaaaaaa
+bbbbbbbbbbbbbbbbbbb
+
+
+
+
+ccccccccccccccccccc}}}
+
+              aaaa
+       bbbb   aaaa
+cccc   bbbb   aaaa
+111111111111111111
+lua require("gomove.selection.line.vertical").move(".", ".", 2)
+lua require("gomove.selection.line.vertical").move("'<", "'>", 2)
+lua require("gomove.selection.block.vertical").move(".", ".", 2)
+lua require("gomove.selection.block.vertical").move("'<", "'>", 2)
+lua print(require("gomove.fold").Handle(25, 25, 1))
+111111111111111111
+aaaa   bbbb   cccc
+aaaa   bbbb
+aaaa
+fold here{{{
+  aaaaaaaaaaaaaaaaaaa
+    bbbbbbbbbbbbbbbbbbb
+
+
+
+
+    ccccccccccccccccccc}}}
+              aaaa
+       bbbb   aaaa
+cccc   bbbb   aaaa
+111111111111111111
+
+lua print(require("gomove.fold").Handle("line", 42, 46, 2))
+111111111111111111
+aaaa   bbbb   cccc
+aaaa   bbbb
+fold here{{{
+aaaaaaaaaaaaaaaaaaa
+bbbbbbbbbbbbbbbbbbb
+
+
+
+
+ccccccccccccccccccc}}}
+{{{
+111111111111111111
+aaaa   bbbb   cccc
+aaaa   bbbb
+aaaa}}}
+aaaa
+              aaaa{{{
+       bbbb   aaaa
+cccc   bbbb   aaaa}}}
+lua print(require("gomove.utils").user_height(59, 60))
+              aaaa
+       bbbb   aaaa
+lua print(require("gomove.selection.block").Handle(64, 65, -1))
+lua print(require("gomove.selection.line").Handle(65, 66, 3))
+cccc   bbbb   aaaa{{{
+111111111111111111}}}
