@@ -1,13 +1,13 @@
 ### booperlv / nvim-gomove
 
-- [ ] selections
+- [x] selections
 
   - [x] main.lua (moving/reporting vertical destinations)
 
-  - [ ] lines (handles lines & fold selections)
-    - [ ] vertical.lua (move, duplicate)
+  - [x] lines (handles lines & fold selections)
+    - [x] vertical.lua (move, duplicate)
       - [x] move
-      - [ ] duplicate
+      - [x] duplicate
     - [x] horizontal.lua (move, duplicate)
       - [x] move
       - [x] duplicate

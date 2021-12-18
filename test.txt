@@ -19,6 +19,8 @@ cccc   bbbb   aaaa
 111111111111111111
 lua require("gomove.selection.line.vertical").move(".", ".", 2)
 lua require("gomove.selection.line.vertical").move("'<", "'>", 2)
+
+
 lua require("gomove.selection.block.vertical").move(".", ".", 2)
 lua require("gomove.selection.block.vertical").move("'<", "'>", 2)
 lua print(require("gomove.fold").Handle(25, 25, 1))

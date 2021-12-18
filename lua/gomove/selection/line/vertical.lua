@@ -1,6 +1,6 @@
-local line_vertical = {}
+local lv = {}
 
-function line_vertical.move(vim_start, vim_end, distance)
+function lv.move(vim_start, vim_end, distance)
   if vim.o.modifiable == 0 or distance == 0 then
     return false
   end
@@ -74,4 +74,47 @@ function line_vertical.move(vim_start, vim_end, distance)
   return true
 end
 
-return line_vertical
+function lv.duplicate(vim_start, vim_end, count)
+  if vim.o.modifiable == 0 or count == 0 then
+    return false
+  end
+
+  -- initial variables
+  local line_start = vim.fn.line(vim_start)
+  local line_end = vim.fn.line(vim_end)
+  local going_down = (count > 0)
+
+  local utils = require('gomove.utils')
+  local height = utils.user_height(line_start, line_end)
+
+  local times_done = 0
+  if going_down then
+    for _=1, math.abs(count) do
+      vim.cmd(line_start..','..line_end..'copy'..line_end)
+      times_done = times_done + 1
+    end
+  else
+    for _=1, math.abs(count) do
+      vim.cmd(line_start..','..line_end..'copy'..line_start-1)
+      times_done = times_done + 1
+    end
+  end
+
+  --Set new position
+  local offset=times_done+(height-1)
+  if going_down then
+    vim.fn.cursor(line_start+offset, 1)
+    vim.cmd('normal! 0m[')
+    vim.fn.cursor(line_end+offset, 1)
+    vim.cmd('normal! $m]')
+  else
+    vim.fn.cursor(line_start, 1)
+    vim.cmd('normal! 0m[')
+    vim.fn.cursor(line_end, 1)
+    vim.cmd('normal! $m]')
+  end
+
+  return true
+end
+
+return lv

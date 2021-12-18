@@ -57,10 +57,13 @@ end
 -------------VISUAL LINES-------------
 
 function M.VisualMoveLineVertical(distance)
-  vim.cmd('normal! gv')
-  if line_vertical.move("'<", "'>", distance) then
-    vim.cmd('normal! g`[Vg`]')
-  end
+  line_vertical.move("'<", "'>", distance)
+  vim.cmd('normal! g`[Vg`]')
+end
+
+function M.VisualDuplicateLineVertical(distance)
+  line_vertical.duplicate("'<", "'>", distance)
+  vim.cmd('execute "normal!g`[Vg`]"')
 end
 
 function M.VisualMoveLineHorizontal(distance)
@@ -68,18 +71,10 @@ function M.VisualMoveLineHorizontal(distance)
   vim.cmd("normal! gv")
 end
 
-function M.VisualDuplicateLineVertical(distance)
-  vim.cmd('normal! gv')
-  if line_vertical.duplicate("'<", "'>", distance) then
-    vim.cmd('normal! g`[Vg`]')
-  end
-end
-
 function M.VisualDuplicateLineHorizontal(distance)
   line_horizontal.duplicate("'<", "'>", distance)
   vim.cmd("normal! gv")
 end
-
 
 
 -------------BLOCKS-------------
