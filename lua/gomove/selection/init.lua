@@ -59,7 +59,7 @@ function M.Handle(l_or_b, start_low, start_high, distance)
         next_position = height_move(going_down, next_position, height)
         -- error catcher and start of file is fold handling{{{
         if prev_value == next_position then
-          print("error caught")
+          print("recursion error caught at", next_position)
           if l_or_b == "l" then
             if next_position == 1 then
               next_position = 0
@@ -87,8 +87,6 @@ function M.Handle(l_or_b, start_low, start_high, distance)
 
   local destn_high = destn_low + (height-1)
 
-  print('got what i think is the destn', destn_low, destn_high)
-
   --Invalid values
   if destn_low <= 0 then
     destn_low = 0
@@ -96,8 +94,6 @@ function M.Handle(l_or_b, start_low, start_high, distance)
     destn_low = vim.fn.line("$")
   end
   destn_high = destn_low + (height-1)
-
-  print(destn_low, destn_high)
 
   return destn_low, destn_high,
   --Return true if did find a fold, false if otherwise

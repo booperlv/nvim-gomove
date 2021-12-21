@@ -2,7 +2,7 @@
 
 - [x] selections
 
-  - [x] main.lua (moving/reporting vertical destinations)
+  - [x] init.lua (moving/reporting vertical destinations)
 
   - [x] lines (handles lines & fold selections)
     - [x] vertical.lua (move, duplicate)
@@ -44,4 +44,4 @@ lightspeed etc.-->
 
 ## TODO
 
-- make everything simpler, especially block_vertical
+- fix error when the bottom of file is a fold

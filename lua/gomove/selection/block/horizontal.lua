@@ -5,12 +5,12 @@ function bh.move(vim_start, vim_end, distance)
     return false
   end
 
+  local going_right = (distance > 0)
+
   local temp_cols = {vim.fn.col(vim_start), vim.fn.col(vim_end)}
   local col_start = math.min(unpack(temp_cols))
   local col_end = math.max(unpack(temp_cols))
   local width = col_end - col_start + 1
-
-  local going_right = (distance > 0)
 
   local destn_start = math.max(1, col_start+distance)
 

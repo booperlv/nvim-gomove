@@ -32,10 +32,11 @@ function lh.duplicate(vim_start, vim_end, count)
     return false
   end
 
+  local utils = require("gomove.utils")
+
   local line_start = vim.fn.line(vim_start)
   local line_end = vim.fn.line(vim_end)
 
-  local utils = require("gomove.utils")
   local lines_between = utils.range(line_start, line_end)
 
   local register = 'z'

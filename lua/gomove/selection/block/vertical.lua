@@ -6,22 +6,22 @@ function bv.move(vim_start, vim_end, distance)
   end
 
   -- initial variables{{{
+  local utils = require('gomove.utils')
+  local going_down = (distance > 0)
   local old_pos = vim.fn.winsaveview()
 
   local line_start = vim.fn.line(vim_start)
   local line_end = vim.fn.line(vim_end)
-
-  local utils = require('gomove.utils')
   local height = utils.user_height(line_start, line_end)
+
+  local col_start = vim.fn.col(vim_start)
+  local col_end = vim.fn.col(vim_end)
+  local width = col_end - col_start
 
   if utils.contains_fold(line_start, line_end) then
     print('Go-Move-Block does not support moving folds!')
     return false
   end
-
-  local col_start = vim.fn.col(vim_start)
-  local col_end = vim.fn.col(vim_end)
-  local width = col_end - col_start
 
   local lines_selected = vim.fn.getbufline(
     vim.fn.bufnr('%'), line_start, line_end
@@ -30,14 +30,13 @@ function bv.move(vim_start, vim_end, distance)
   if table.concat(lines_selected) == '' then
     return false
   end
---}}}
-  --Compute destination line{{{
-  local going_down = (distance > 0)
 
   local destn_col_start = col_start
+--}}}
+  --Compute destination line{{{
 
-  local fold = require('gomove.selection')
-  local destn_line_start, destn_line_end = fold.Handle(
+  local destn = require('gomove.selection')
+  local destn_line_start, destn_line_end = destn.Handle(
     "b", line_start, line_end, distance
   )
 
@@ -59,7 +58,7 @@ function bv.move(vim_start, vim_end, distance)
   --Prepping for trailing whitespace delete{{{
 
   --Get all lines between linebefore and after, and their corresponding lengths.
-  --We are keeping the lengths from BEFORE the actual move.
+  --We are getting the lengths BEFORE we actually move.
   local all_pos_between = {}
   local low_end = destn_line_start
   local high_end = destn_line_end
@@ -70,13 +69,13 @@ function bv.move(vim_start, vim_end, distance)
     low_end = low_end + 1
   end
 
-  --Extract the lines where length is less than destination column/before.
-  --This will be the basis for the vim buffer trailing whitespace variable
-  local lines_length_prior = {}
+  --Extract the lines where length is less than destination column/before. As
+  --that would be the only instance where a trailing whitespace would be left.
+  local lines_to_insert = {}
   for _, pos in ipairs(all_pos_between) do
     vim.fn.cursor(pos)
     if vim.fn.col('$') < destn_col_start then
-      table.insert(lines_length_prior, pos)
+      table.insert(lines_to_insert, pos)
     end
   end
 
@@ -110,14 +109,13 @@ function bv.move(vim_start, vim_end, distance)
   end
 --}}}
   --Deleting and Pasting{{{
-
-  local old_virtualedit = vim.o.virtualedit
-  vim.o.virtualedit = "all"
+  vim.fn.winrestview(old_pos)
 
   local register = 'z'
   local old_register_value = vim.fn.getreg(register)
 
-  vim.fn.winrestview(old_pos)
+  local old_virtualedit = vim.o.virtualedit
+  vim.o.virtualedit = "all"
 
   local undo = require('gomove.undo')
   undo.Handle(
@@ -125,9 +123,7 @@ function bv.move(vim_start, vim_end, distance)
   )
 
   vim.cmd('silent! normal! "'..register..'x')
-
   utils.go_to(destn_line_start, destn_col_start, height)
-
   vim.cmd('silent! normal! "'..register..'P')
 
   vim.o.virtualedit = old_virtualedit
@@ -154,13 +150,14 @@ function bv.move(vim_start, vim_end, distance)
 
   --Insert all of the new positions to the table without deleting the others
   --that should stay for after we move past those positions
-  for _, pos in ipairs(lines_length_prior) do
+  for _, pos in ipairs(lines_to_insert) do
     local function has_pos (tab, val)
       for _,v in ipairs(tab) do
         if v == val then return true end
       end
       return false
     end
+    --Prevent duplicates
     if not has_pos(new_lines_with_trailing_whitespace, pos) then
       table.insert(new_lines_with_trailing_whitespace, {
         pos = pos,
@@ -187,42 +184,41 @@ function bv.duplicate(vim_start, vim_end, count)
   end
 
   -- initial variables{{{
-  local line_start = vim.fn.line(vim_start)
-  local line_end = vim.fn.line(vim_end)
-
   local utils = require('gomove.utils')
-  if utils.contains_fold(line_start, line_end) then
-    print('Go-Dup-Block does not support moving folds!')
-    return false
-  end
-
   local going_down = (count > 0)
 
+  local line_start = vim.fn.line(vim_start)
+  local line_end = vim.fn.line(vim_end)
   local height = utils.user_height(line_start, line_end)
 
   local col_start = vim.fn.col(vim_start)
   local col_end = vim.fn.col(vim_end)
   local width = col_end - col_start
 
+  if utils.contains_fold(line_start, line_end) then
+    print('Go-Dup-Block does not support moving folds!')
+    return false
+  end
+
   local destn_line_start = line_start
   local destn_line_end = line_start + height
   local destn_col_start = col_start
 --}}}
   --Deleting and Pasting{{{
+  local register = 'z'
+  local old_register_value = vim.fn.getreg(register)
 
   local old_virtualedit = vim.o.virtualedit
   vim.o.virtualedit = "all"
 
-  local register = 'z'
-  local old_register_value = vim.fn.getreg(register)
   vim.cmd('silent! normal! "'..register..'x')
   vim.cmd('silent! normal! "'..register..'P')
 
   local amount_of_times_done = 1
 
-  local fold = require('gomove.selection')
+  local destn = require('gomove.selection')
   while (amount_of_times_done <= math.abs(count)) do
-    destn_line_start, destn_line_end = fold.Handle(
+    destn_line_start, destn_line_end = destn.Handle(
       "b", destn_line_start, destn_line_end,
       (going_down and 1 or -1)
     )

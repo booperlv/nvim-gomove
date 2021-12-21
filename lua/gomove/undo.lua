@@ -11,7 +11,10 @@ function undo.Handle(direction)
   local utils = require("gomove.utils")
   if utils.tables_identical(prev_state, current_state) then
     vim.cmd('silent! undojoin')
+    return true
   end
+
+  return false
 end
 
 return undo

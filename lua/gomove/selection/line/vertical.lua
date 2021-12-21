@@ -6,18 +6,17 @@ function lv.move(vim_start, vim_end, distance)
   end
 
   -- initial values{{{
+  local utils = require("gomove.utils")
+  local going_down = (distance > 0)
   local old_pos = vim.fn.winsaveview()
 
   local line_start = vim.fn.line(vim_start)
   local line_end = vim.fn.line(vim_end)
-
-  local going_down = (distance > 0)
-
-  local utils = require("gomove.utils")
+  local height = utils.user_height(line_start, line_end)
 --}}}
   -- Compute Destination Line{{{
-  local fold = require('gomove.selection')
-  local destn_start, destn_end, encountered_fold = fold.Handle(
+  local destn = require('gomove.selection')
+  local destn_start, destn_end, encountered_fold = destn.Handle(
     "l", line_start, line_end, distance
   )
 
@@ -31,12 +30,9 @@ function lv.move(vim_start, vim_end, distance)
   )
 --}}}
   --Make up for the oddness of :move{{{
-
   local move_translated_destn = destn_start
   if not (destn_start <= 0) then
-    local height = utils.user_height(line_start, line_end)
     if encountered_fold then
-      print(height)
       if going_down then
         destn_start = utils.fold_end(destn_start)-(height)
       else
@@ -45,20 +41,15 @@ function lv.move(vim_start, vim_end, distance)
     end
     destn_end = destn_start + (height-1)
 
-    print('encountered fold is', destn_start, destn_end)
-
     if going_down then
       move_translated_destn = destn_end
     else
       move_translated_destn = destn_start-1
     end
-
-    print('translated is', move_translated_destn)
   end
 --}}}
   -- Move{{{
   vim.fn.winrestview(old_pos)
-  -- print(line_start, line_end, move_translated_destn)
   vim.cmd(line_start..','..line_end..'move'..move_translated_destn)
 --}}}
   -- Reindenting Setting New Position{{{
@@ -80,13 +71,14 @@ function lv.duplicate(vim_start, vim_end, count)
   end
 
   -- initial variables
-  local line_start = vim.fn.line(vim_start)
-  local line_end = vim.fn.line(vim_end)
+  local utils = require('gomove.utils')
   local going_down = (count > 0)
 
-  local utils = require('gomove.utils')
+  local line_start = vim.fn.line(vim_start)
+  local line_end = vim.fn.line(vim_end)
   local height = utils.user_height(line_start, line_end)
 
+  -- copy
   local times_done = 0
   if going_down then
     for _=1, math.abs(count) do
