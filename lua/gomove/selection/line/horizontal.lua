@@ -22,6 +22,9 @@ function lh.move(vim_start, vim_end, distance)
     (going_right and "right" or "left")
   )
   vim.cmd("silent! "..line_start..','..line_end..action)
+  undo.Save(
+    (going_right and "right" or "left")
+  )
 
   return true
 end

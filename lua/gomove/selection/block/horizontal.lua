@@ -49,6 +49,10 @@ function bh.move(vim_start, vim_end, distance)
   vim.o.virtualedit = old_virtualedit
   vim.fn.setreg(register, old_register_value)
 
+  undo.Save(
+    (going_right and "right" or "left")
+  )
+
   return true
 end
 

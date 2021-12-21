@@ -44,4 +44,5 @@ lightspeed etc.-->
 
 ## TODO
 
-- fix error when the bottom of file is a fold
+- modify the fold handling in selection/init.lua to inherently handle top of
+  file is fold and bottom of file is fold scenarios

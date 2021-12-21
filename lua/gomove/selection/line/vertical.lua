@@ -62,6 +62,10 @@ function lv.move(vim_start, vim_end, distance)
   vim.fn.cursor(new_line_end, 1)
   vim.cmd("normal! $m]")--}}}
 
+  undo.Save(
+    (going_down and "down" or "up")
+  )
+
   return true
 end
 

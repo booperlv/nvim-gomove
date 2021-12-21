@@ -13,13 +13,17 @@ local function normal_move(going_down, next_position)
 end
 
 local function height_move(going_down, next_position, height)
+  local utils = require("gomove.utils")
   vim.fn.cursor(next_position, 1)
   if going_down then
     vim.cmd("normal! j")
-    next_position = vim.fn.line(".") + (height-1)
+    next_position = utils.fold_end(vim.fn.line(".")) + (height-1)
   else
     vim.cmd("normal! k")
-    next_position = vim.fn.line(".") - (height-1)
+    next_position = utils.fold_start(vim.fn.line(".")) - (height-1)
+    if next_position <= 1 then
+      next_position = 1
+    end
   end
   return next_position
 end
@@ -57,16 +61,20 @@ function M.Handle(l_or_b, start_low, start_high, distance)
       while (vim.fn.foldclosed(".") ~= -1) do
         prev_value = next_position
         next_position = height_move(going_down, next_position, height)
-        -- error catcher and start of file is fold handling{{{
+        -- error catcher and start/end of file is fold handling{{{
         if prev_value == next_position then
           print("recursion error caught at", next_position)
           if l_or_b == "l" then
             if next_position == 1 then
               next_position = 0
+            elseif next_position >= vim.fn.line('$') then
+              next_position = vim.fn.line('$') - (height-1)
             end
           elseif l_or_b == "b" then
             if next_position <= 1 then
               next_position = 1
+            elseif next_position >= vim.fn.line('$') then
+              next_position = vim.fn.line('$') - (height-1)
             end
           end
           break;

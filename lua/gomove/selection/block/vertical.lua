@@ -123,7 +123,7 @@ function bv.move(vim_start, vim_end, distance)
   )
 
   vim.cmd('silent! normal! "'..register..'x')
-  utils.go_to(destn_line_start, destn_col_start, height)
+  vim.fn.cursor(destn_line_start, destn_col_start)
   vim.cmd('silent! normal! "'..register..'P')
 
   vim.o.virtualedit = old_virtualedit
@@ -173,6 +173,10 @@ function bv.move(vim_start, vim_end, distance)
   vim.cmd('normal! m[')
   vim.fn.cursor(destn_line_start+(height-1), destn_col_start+width)
   vim.cmd('normal! m]')--}}}
+
+  undo.Save(
+    (going_down and "down" or "up")
+  )
 
   return true
 end
