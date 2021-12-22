@@ -115,4 +115,17 @@ function utils.create_line(num)
   vim.fn.winrestview(old_pos)
 end
 
+--If there is a fold in the destination, open it
+function utils.open_fold(line_start, line_end)
+  local destn_has_fold, destn_folds = utils.contains_fold(
+    line_start, line_end
+  )
+  if destn_has_fold then
+    for _, position in ipairs(destn_folds) do
+      vim.cmd(position[1]..","..position[2].."foldopen")
+    end
+  end
+  return destn_has_fold, destn_folds
+end
+
 return utils

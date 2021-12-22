@@ -12,20 +12,37 @@ local function normal_move(going_down, next_position)
   return next_position
 end
 
-local function height_move(going_down, next_position, height)
+local function height_move(l_or_b, going_down, next_position, height)
   local utils = require("gomove.utils")
-  vim.fn.cursor(next_position, 1)
+  local prev_position = next_position
+  vim.fn.cursor(prev_position, 1)
   if going_down then
     vim.cmd("normal! j")
-    next_position = utils.fold_end(vim.fn.line(".")) + (height-1)
+    next_position = vim.fn.line(".") + (height-1)
+    -- workaround for end of file is fold
+    if utils.fold_end(next_position) >= vim.fn.line('$') then
+      if l_or_b == "b" then
+        next_position = prev_position
+      else
+        next_position = utils.fold_end(next_position) + 2
+        return next_position, true
+      end
+    end
   else
     vim.cmd("normal! k")
-    next_position = utils.fold_start(vim.fn.line(".")) - (height-1)
+    next_position = vim.fn.line(".") - (height-1)
+    -- workaround for start of file is fold
     if next_position <= 1 then
-      next_position = 1
+      if l_or_b == "b" then
+        vim.cmd("normal! j")
+        next_position = utils.fold_end(vim.fn.line(".")) - 1
+        return next_position, true
+      else
+        next_position = 1
+      end
     end
   end
-  return next_position
+  return next_position, false
 end
 
 function M.Handle(l_or_b, start_low, start_high, distance)
@@ -60,28 +77,27 @@ function M.Handle(l_or_b, start_low, start_high, distance)
       did_find_a_fold = true
       while (vim.fn.foldclosed(".") ~= -1) do
         prev_value = next_position
-        next_position = height_move(going_down, next_position, height)
+        local stop_loop
+        next_position, stop_loop = height_move(
+          l_or_b, going_down, next_position, height
+        )
+        if stop_loop == true then break end
         -- error catcher and start/end of file is fold handling{{{
         if prev_value == next_position then
-          print("recursion error caught at", next_position)
+          -- print("recursion error caught at", next_position)
           if l_or_b == "l" then
             if next_position == 1 then
               next_position = 0
-            elseif next_position >= vim.fn.line('$') then
-              next_position = vim.fn.line('$') - (height-1)
             end
           elseif l_or_b == "b" then
             if next_position <= 1 then
               next_position = 1
-            elseif next_position >= vim.fn.line('$') then
-              next_position = vim.fn.line('$') - (height-1)
             end
           end
           break;
         end--}}}
       end
     end
-    print(next_position)
   end
   vim.fn.winrestview(old_pos)
 
@@ -94,14 +110,6 @@ function M.Handle(l_or_b, start_low, start_high, distance)
   end
 
   local destn_high = destn_low + (height-1)
-
-  --Invalid values
-  if destn_low <= 0 then
-    destn_low = 0
-  elseif destn_high >= vim.fn.line("$") then
-    destn_low = vim.fn.line("$")
-  end
-  destn_high = destn_low + (height-1)
 
   return destn_low, destn_high,
   --Return true if did find a fold, false if otherwise

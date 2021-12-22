@@ -34,7 +34,6 @@ function bv.move(vim_start, vim_end, distance)
   local destn_col_start = col_start
 --}}}
   --Compute destination line{{{
-
   local destn = require('gomove.selection')
   local destn_line_start, destn_line_end = destn.Handle(
     "b", line_start, line_end, distance
@@ -45,15 +44,7 @@ function bv.move(vim_start, vim_end, distance)
     return false
   end
 
-  --If there is a fold in the destination, open it first
-  local destn_has_fold, destn_folds = utils.contains_fold(
-    destn_line_start, destn_line_end
-  )
-  if destn_has_fold then
-    for _, position in ipairs(destn_folds) do
-      vim.cmd(position[1]..","..position[2].."foldopen")
-    end
-  end
+  utils.open_fold(destn_line_start, destn_line_end)
 --}}}
   --Prepping for trailing whitespace delete{{{
 
