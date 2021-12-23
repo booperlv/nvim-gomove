@@ -99,7 +99,7 @@ function M.Handle(l_or_b, start_low, start_high, distance)
         while (vim.fn.foldclosed(".") ~= -1) do
           prev_value = next_position
           next_position = block_move(
-            going_down, next_position
+            going_down, next_position, height
           )
           if prev_value == next_position then
             break;
