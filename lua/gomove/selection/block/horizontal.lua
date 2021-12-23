@@ -74,14 +74,13 @@ function bh.duplicate(vim_start, vim_end, count)
   local destn_start = col_start + (going_right and 1 or -1)
   local destn_end = destn_start + width
 
-  local old_virtualedit = vim.o.virtualedit
-  vim.o.virtualedit = 'all'
-
-  local line = vim.fn.line(".")
-
   local register = 'z'
   local old_register_value = vim.fn.getreg('register')
   vim.cmd('silent! normal! "'..register..'x')
+
+  local old_virtualedit = vim.o.virtualedit
+  vim.o.virtualedit = 'all'
+  local line = vim.fn.line(".")
   vim.cmd('silent! normal! "'..register..'P')
 
   if going_right then
