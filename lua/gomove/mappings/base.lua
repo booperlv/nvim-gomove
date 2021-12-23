@@ -22,7 +22,7 @@ function M.MoveLineVertical(distance)
 end
 
 function M.MoveLineHorizontal(distance)
-  local prev_col = vim.f.col(".")
+  local prev_col = vim.fn.col(".")
   local prev_indent = vim.fn.indent(".")
     line_horizontal.move('.', '.', distance)
   local new_indent = vim.fn.indent(".")
