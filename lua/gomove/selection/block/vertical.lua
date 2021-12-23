@@ -217,6 +217,7 @@ function bv.duplicate(vim_start, vim_end, count)
       "b", destn_line_start, destn_line_end,
       (going_down and 1 or -1)
     )
+    utils.open_fold(destn_line_start, destn_line_end)
 
     vim.fn.cursor(destn_line_start, destn_col_start)
     vim.cmd('silent! normal! "'..register..'P')
