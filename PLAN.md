@@ -43,5 +43,3 @@ lightspeed etc.-->
     - [ ] duplicate
 
 ## TODO
-
-- finalize intended folding behavior, and apply

@@ -57,7 +57,6 @@ aaaa
 cccc   bbbb   aaaa}}}
               aaaa
        bbbb   aaaa
-lua print(require("gomove.selection").Handle("l", 59, 61, 1))
-lua print(require("gomove.selection").Handle("b", 69, 61, 1))
+lua print(require("gomove.selection.line").Handle(59, 60, 1))
 cccc   bbbb   aaaa{{{
 111111111111111111}}}

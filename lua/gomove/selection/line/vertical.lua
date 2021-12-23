@@ -15,11 +15,10 @@ function lv.move(vim_start, vim_end, distance)
   local height = utils.user_height(line_start, line_end)
 --}}}
   -- Compute Destination Line{{{
-  local destn = require('gomove.selection')
-  local destn_start, destn_end, encountered_fold = destn.Handle(
-    "l", line_start, line_end, distance
+  local destn = require('gomove.selection.line')
+  local destn_start, destn_end = destn.Handle(
+    line_start, line_end, distance
   )
-  print('move says', destn_start, destn_end)
 
   --If there is no actual movement, stop right here and don't do anything else.
   if line_start == destn_start and line_end == destn_end then
@@ -28,24 +27,11 @@ function lv.move(vim_start, vim_end, distance)
 --}}}
   --Make up for the oddness of :move{{{
   local move_translated_destn = destn_start
-  if not (destn_start <= 0) then
-    if encountered_fold then
-      if going_down then
-        destn_start = utils.fold_end(destn_start)-(height)
-      else
-        destn_start = utils.fold_start(destn_start)+(height)
-      end
-    end
-    destn_end = destn_start + (height-1)
-    print('so encountered fold says', destn_start, destn_end)
-
-    if going_down then
-      move_translated_destn = destn_end
-    else
-      move_translated_destn = destn_start-1
-    end
+  if going_down then
+    move_translated_destn = destn_end
+  else
+    move_translated_destn = destn_start-1
   end
-  print('so translated move is', move_translated_destn)
 --}}}
   -- Move{{{
   local undo = require('gomove.undo')

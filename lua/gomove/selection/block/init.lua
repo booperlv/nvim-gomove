@@ -12,40 +12,32 @@ local function normal_move(going_down, next_position)
   return next_position
 end
 
-local function height_move(l_or_b, going_down, next_position, height)
+-- move past folds recursively as to avoid going into them
+local function height_move(going_down, next_position, height)
   local utils = require("gomove.utils")
   local prev_position = next_position
   vim.fn.cursor(prev_position, 1)
   if going_down then
     vim.cmd("normal! j")
     next_position = vim.fn.line(".") + (height-1)
-    -- workaround for end of file is fold
+    -- workaround for end of file is fold{{{
     if utils.fold_end(next_position) >= vim.fn.line('$') then
-      if l_or_b == "b" then
-        next_position = prev_position
-      else
-        next_position = utils.fold_end(next_position) + 2
-        return next_position, true
-      end
-    end
+      next_position = prev_position
+    end--}}}
   else
     vim.cmd("normal! k")
     next_position = vim.fn.line(".") - (height-1)
-    -- workaround for start of file is fold
+    -- workaround for start of file is fold{{{
     if next_position <= 1 then
-      if l_or_b == "b" then
-        vim.cmd("normal! j")
-        next_position = utils.fold_end(vim.fn.line(".")) - 1
-        return next_position, true
-      else
-        next_position = 1
-      end
+      vim.cmd("normal! j")
+      next_position = utils.fold_end(vim.fn.line(".")) - 1
+      return next_position, true
     end
-  end
+  end--}}}
   return next_position, false
 end
 
-function M.Handle(l_or_b, start_low, start_high, distance)
+function M.Handle(start_low, start_high, distance)
   local going_down = (distance > 0)
 
   local utils = require('gomove.utils')
@@ -79,21 +71,12 @@ function M.Handle(l_or_b, start_low, start_high, distance)
         prev_value = next_position
         local stop_loop
         next_position, stop_loop = height_move(
-          l_or_b, going_down, next_position, height
+          going_down, next_position, height
         )
         if stop_loop == true then break end
-        -- error catcher and start/end of file is fold handling{{{
+        -- infinite loop catcher {{{
         if prev_value == next_position then
-          -- print("recursion error caught at", next_position)
-          if l_or_b == "l" then
-            if next_position == 1 then
-              next_position = 0
-            end
-          elseif l_or_b == "b" then
-            if next_position <= 1 then
-              next_position = 1
-            end
-          end
+          -- print("infinite loop stopped at", next_position)
           break;
         end--}}}
       end
