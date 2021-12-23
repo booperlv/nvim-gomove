@@ -1,6 +1,6 @@
 # nvim-gomove
 
-A complete plugin for moving and duplicating blocks and lines, with complete fold handling, reindenting, and undo-ing in one go.
+A complete plugin for moving and duplicating blocks and lines, with complete fold handling, reindenting, and undoing in one go.
 
 ## Features
 
