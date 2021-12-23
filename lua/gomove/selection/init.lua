@@ -13,7 +13,7 @@ local function normal_move(going_down, next_position)
 end
 
 -- move past folds recursively as to avoid going into them
-local function height_move(going_down, next_position, height)
+local function block_move(going_down, next_position, height)
   local utils = require("gomove.utils")
   local prev_position = next_position
   vim.fn.cursor(prev_position, 1)
@@ -37,7 +37,23 @@ local function height_move(going_down, next_position, height)
   return next_position, false
 end
 
-function M.Handle(start_low, start_high, distance)
+-- move along folds as if they were lines
+local function line_move(going_down, next_position)
+  local utils = require("gomove.utils")
+  local prev_position = next_position
+  vim.fn.cursor(prev_position, 1)
+  if going_down then
+    next_position = utils.fold_end(vim.fn.line("."))
+  else
+    next_position = utils.fold_start(vim.fn.line("."))
+  end
+  if vim.fn.foldclosed(next_position) ~= -1 then
+    return next_position, true
+  end
+  return next_position, false
+end
+
+function M.Handle(l_or_b, start_low, start_high, distance)
   local going_down = (distance > 0)
 
   local utils = require('gomove.utils')
@@ -70,9 +86,15 @@ function M.Handle(start_low, start_high, distance)
       while (vim.fn.foldclosed(".") ~= -1) do
         prev_value = next_position
         local stop_loop
-        next_position, stop_loop = height_move(
-          going_down, next_position, height
-        )
+        if l_or_b == "l" then
+          next_position, stop_loop = line_move(
+            going_down, next_position
+          )
+        elseif l_or_b == "b" then
+          next_position, stop_loop = block_move(
+            going_down, next_position
+          )
+        end
         if stop_loop == true then break end
         -- infinite loop catcher {{{
         if prev_value == next_position then

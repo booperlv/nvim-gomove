@@ -34,9 +34,9 @@ function bv.move(vim_start, vim_end, distance)
   local destn_col_start = col_start
 --}}}
   --Compute destination line{{{
-  local destn = require('gomove.selection.block')
+  local destn = require('gomove.selection')
   local destn_line_start, destn_line_end = destn.Handle(
-    line_start, line_end, distance
+    "b", line_start, line_end, distance
   )
 
   --If there is no actual movement, stop right here and don't do anything else.

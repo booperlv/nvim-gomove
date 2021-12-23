@@ -15,9 +15,9 @@ function lv.move(vim_start, vim_end, distance)
   local height = utils.user_height(line_start, line_end)
 --}}}
   -- Compute Destination Line{{{
-  local destn = require('gomove.selection.line')
+  local destn = require('gomove.selection')
   local destn_start, destn_end = destn.Handle(
-    line_start, line_end, distance
+    "l", line_start, line_end, distance
   )
 
   --If there is no actual movement, stop right here and don't do anything else.

@@ -34,7 +34,7 @@
 
 ## Planned
 
-<!-- this might have to support/take into account a few plugins such as hop,
+<!-- this might have to support specifically a few plugins such as hop,
 lightspeed etc.-->
 - [ ] motions (handles anything as long we can del-paste to new position)
   - [ ] handle-motions.lua (get new position of motion and report)
