@@ -15,3 +15,9 @@ A complete plugin for moving and duplicating blocks and lines, with complete fol
 - Undoing in one go
 - Deleting Trailing Whitespaces (Block Vertical)
 - Reindenting
+
+
+## Special Mentions
+
+- [matze/vim-move](https://github.com/matze/vim-move), much of the initial work was based on this plugin
+- [t9md/vim-textmanip](https://github.com/t9md/vim-textmanip): many features were made possible using this plugin as a reference

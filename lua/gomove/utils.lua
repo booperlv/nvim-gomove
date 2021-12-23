@@ -10,16 +10,6 @@ function utils.merge(t1, t2)
   return t1
 end
 
--- checks the index of value in table
-function utils.index_of(table, value)
-  for k, v in ipairs(table) do
-    if v == value then
-      return k
-    end
-  end
-  return nil
-end
-
 -- creates a number range
 function utils.range(from, to)
   local result = {}
@@ -78,6 +68,7 @@ function utils.user_height(start_range, end_range)
   return counter
 end
 
+-- reindents lines between start and end
 function utils.reindent(new_line_start, new_line_end)
   local contains_fold = utils.contains_fold(new_line_start, new_line_end)
   if not contains_fold then
@@ -104,15 +95,6 @@ function utils.reindent(new_line_start, new_line_end)
     end
   end
   return new_line_start, new_line_end
-end
-
--- Create a line if it does not exist
-function utils.create_line(num)
-  local old_pos = vim.fn.winsaveview()
-  if vim.fn.line('$') <= num then
-    vim.cmd('normal!G'..num-vim.fn.line('$')..'o')
-  end
-  vim.fn.winrestview(old_pos)
 end
 
 --If there is a fold in the destination, open it

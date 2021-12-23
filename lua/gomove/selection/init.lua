@@ -1,3 +1,9 @@
+
+--------------------------------------------------------
+-- This file returns the ideal destination of a vertical
+-- range when moved as a block, or line
+--------------------------------------------------------
+
 local M = {}
 
 local function normal_move(going_down, next_position)
@@ -12,7 +18,7 @@ local function normal_move(going_down, next_position)
   return next_position
 end
 
--- move past folds recursively as to avoid going into them
+-- move past folds recursively to avoid going into them
 local function block_move(going_down, next_position, height)
   local utils = require("gomove.utils")
   local prev_position = next_position
@@ -83,24 +89,22 @@ function M.Handle(l_or_b, start_low, start_high, distance)
     next_position = normal_move(going_down, next_position)
     if vim.fn.foldclosed(".") ~= -1 then
       did_find_a_fold = true
-      while (vim.fn.foldclosed(".") ~= -1) do
-        prev_value = next_position
-        local stop_loop
-        if l_or_b == "l" then
-          next_position, stop_loop = line_move(
+      -- just move among folds as if they were lines
+      if l_or_b == "l" then
+        next_position = line_move(
+          going_down, next_position
+        )
+      -- move past folds recursively to avoid going into them
+      elseif l_or_b == "b" then
+        while (vim.fn.foldclosed(".") ~= -1) do
+          prev_value = next_position
+          next_position = block_move(
             going_down, next_position
           )
-        elseif l_or_b == "b" then
-          next_position, stop_loop = block_move(
-            going_down, next_position
-          )
+          if prev_value == next_position then
+            break;
+          end
         end
-        if stop_loop == true then break end
-        -- infinite loop catcher {{{
-        if prev_value == next_position then
-          -- print("infinite loop stopped at", next_position)
-          break;
-        end--}}}
       end
     end
   end

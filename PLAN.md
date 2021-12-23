@@ -43,3 +43,5 @@ lightspeed etc.-->
     - [ ] duplicate
 
 ## TODO
+
+- comment more of the code

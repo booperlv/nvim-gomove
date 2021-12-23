@@ -12,7 +12,6 @@ function lv.move(vim_start, vim_end, distance)
 
   local line_start = vim.fn.line(vim_start)
   local line_end = vim.fn.line(vim_end)
-  local height = utils.user_height(line_start, line_end)
 --}}}
   -- Compute Destination Line{{{
   local destn = require('gomove.selection')
@@ -64,15 +63,15 @@ function lv.duplicate(vim_start, vim_end, count)
     return false
   end
 
-  -- initial variables
+  -- initial variables{{{
   local utils = require('gomove.utils')
   local going_down = (count > 0)
 
   local line_start = vim.fn.line(vim_start)
   local line_end = vim.fn.line(vim_end)
   local height = utils.user_height(line_start, line_end)
-
-  -- copy
+--}}}
+  -- copy{{{
   local times_done = 0
   if going_down then
     for _=1, math.abs(count) do
@@ -85,8 +84,8 @@ function lv.duplicate(vim_start, vim_end, count)
       times_done = times_done + 1
     end
   end
-
-  --Set new position
+--}}}
+  --Set new position{{{
   local offset=times_done+(height-1)
   if going_down then
     vim.fn.cursor(line_start+offset, 1)
@@ -98,7 +97,7 @@ function lv.duplicate(vim_start, vim_end, count)
     vim.cmd('normal! 0m[')
     vim.fn.cursor(line_end, 1)
     vim.cmd('normal! $m]')
-  end
+  end--}}}
 
   return true
 end

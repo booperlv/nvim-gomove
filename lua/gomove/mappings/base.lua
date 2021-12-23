@@ -61,15 +61,16 @@ function M.VisualMoveLineVertical(distance)
   vim.cmd('normal! g`[Vg`]')
 end
 
+function M.VisualMoveLineHorizontal(distance)
+  line_horizontal.move("'<", "'>", distance)
+  vim.cmd("normal! gv")
+end
+
 function M.VisualDuplicateLineVertical(distance)
   line_vertical.duplicate("'<", "'>", distance)
   vim.cmd('execute "normal!g`[Vg`]"')
 end
 
-function M.VisualMoveLineHorizontal(distance)
-  line_horizontal.move("'<", "'>", distance)
-  vim.cmd("normal! gv")
-end
 
 function M.VisualDuplicateLineHorizontal(distance)
   line_horizontal.duplicate("'<", "'>", distance)
