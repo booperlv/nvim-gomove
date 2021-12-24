@@ -71,7 +71,7 @@ function bv.move(vim_start, vim_end, distance)
   end
 
   local new_lines_with_trailing_whitespace = vim.b.gomove_lines_with_trailing_whitespace or {}
-  local function line_exists_between(val)
+  local function line_exists_between_selection(val)
     for _, pos in ipairs(all_pos_between) do
       if pos[1] == val[1] then
         return true
@@ -80,24 +80,36 @@ function bv.move(vim_start, vim_end, distance)
     return false
   end
 
-  --Remove the lines where the content is not the same as the plugin remembers
-  --basically, "dead positions" or the lines that have already changed.
-  --This is done to prevent any instance where the line has already been
-  --changed, but is then normal!dw'ed at it's previous last column prior to
-  --changing.
-  if next(new_lines_with_trailing_whitespace) ~= nil then
-    for index, value in ipairs(new_lines_with_trailing_whitespace) do
-      local content = value.content or ''
-      if not line_exists_between(content) then
-        local pos = value.pos
-        --If the value of the line at the current pos is not the same as it
-        --remembers, delete it
-        if content ~= vim.fn.getline(pos[1]) then
-          table.remove(new_lines_with_trailing_whitespace, index)
-        end
-      end
+  local undo = require('gomove.undo')
+  local did_undojoin = undo.Handle(
+    (going_down and "down" or "up")
+  )
+
+  -- To prevent instances where the content of the line is already changed, but
+  -- we assume that the previous "end column" is still the same and accidentally
+  -- delete there, we completely clear the previous
+  -- "lines_with_trailing_whitespace" when the move is not undojoined.
+  if not did_undojoin then
+    for index, _ in ipairs(new_lines_with_trailing_whitespace) do
+      table.remove(new_lines_with_trailing_whitespace, index)
     end
   end
+
+  --Insert all of the new positions to the table without deleting the others
+  --that should stay for after we move past those positions
+  for _, pos in ipairs(lines_to_insert) do
+    local function has_line (tab, val)
+      for _,v in ipairs(tab) do
+        if v[1] == val[1] then return true end
+      end
+      return false
+    end
+    --Prevent duplicates
+    if not has_line(new_lines_with_trailing_whitespace, pos) then
+      table.insert(new_lines_with_trailing_whitespace, pos)
+    end
+  end
+
 --}}}
   --Deleting and Pasting{{{
   vim.fn.winrestview(old_pos)
@@ -107,11 +119,6 @@ function bv.move(vim_start, vim_end, distance)
 
   local old_virtualedit = vim.o.virtualedit
   vim.o.virtualedit = "all"
-
-  local undo = require('gomove.undo')
-  undo.Handle(
-    (going_down and "down" or "up")
-  )
 
   vim.cmd('silent! normal! "'..register..'x')
   vim.fn.cursor(destn_line_start, destn_col_start)
@@ -124,36 +131,17 @@ function bv.move(vim_start, vim_end, distance)
 
   --Delete trailing whitespace from previous move
   if next(new_lines_with_trailing_whitespace) ~= nil then
-    for index, value in ipairs(new_lines_with_trailing_whitespace) do
+    for index, pos in ipairs(new_lines_with_trailing_whitespace) do
       --We check here if it doesn't exist inside lines, to get rid of the trailing
       --whitespace and the item on the array ONLY ONCE we have moved past it.
       --Also, check if it is not blank, to make sure that we do not remove lines.
-      local pos = value.pos
-      if not line_exists_between(pos) then
+      if not line_exists_between_selection(pos) then
         if vim.fn.getline(pos[1]) ~= '' then
           vim.fn.cursor(pos)
           vim.cmd('normal! dw')
           table.remove(new_lines_with_trailing_whitespace, index)
         end
       end
-    end
-  end
-
-  --Insert all of the new positions to the table without deleting the others
-  --that should stay for after we move past those positions
-  for _, pos in ipairs(lines_to_insert) do
-    local function has_pos (tab, val)
-      for _,v in ipairs(tab) do
-        if v == val then return true end
-      end
-      return false
-    end
-    --Prevent duplicates
-    if not has_pos(new_lines_with_trailing_whitespace, pos) then
-      table.insert(new_lines_with_trailing_whitespace, {
-        pos = pos,
-        content = vim.fn.getline(pos[1])
-      })
     end
   end
 

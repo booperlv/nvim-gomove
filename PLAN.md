@@ -14,7 +14,7 @@
     
   - [x] blocks (handles block selections)
     - [x] vertical.lua (move, duplicate)
-      - [x] move
+      - [ ] move
       - [x] duplicate
     - [x] horizontal.lua (move, duplicate)
       - [x] move
