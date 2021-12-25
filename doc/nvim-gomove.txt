@@ -1,0 +1,127 @@
+================================================================================
+
+*gomove*
+Moving and duplicating blocks and lines, with complete
+fold handling, reindenting, and undoing in one go.
+
+Author: booperlv <github.com/booperlv>
+License: MIT (see |gomove-license|)
+
+================================================================================
+
+CONTENTS                                                       *gomove-contents*
+
+  1. Quick Start ........................... |gomove-quickstart|
+  2. Usage ................................. |gomove-usage|
+  3. Options ............................... |gomove-options|
+  4. Mappings .............................. |gomove-mappings|
+  5. License ............................... |gomove-license|
+  6. Credits ............................... |gomove-credits|
+
+================================================================================
+
+1. QUICK START                                               *gomove-quickstart*
+>
+  require("gomove").setup()
+<
+================================================================================
+
+2. USAGE                                                          *gomove-usage*
+
+The default "smart" move mappings work this way:
+
+Normal Mode:
+>
+  <A-h> = Block Left
+  <A-j> = Line Down
+  <A-k> = Line Up
+  <A-l> = Block Right
+<
+
+Visual Mode:
+>
+  <A-h> = Block Left
+  <A-j> = Line Down
+  <A-k> = Line Up
+  <A-l> = Block Right
+<
+
+Line-Visual Mode:
+>
+  <A-h> = Line Left
+  <A-j> = Line Down
+  <A-k> = Line Up
+  <A-l> = Line Right
+<
+
+Block-Visual Mode:
+>
+  <A-h> = Block Left
+  <A-j> = Block Down
+  <A-k> = Block Up
+  <A-l> = Block Right
+<
+
+|<A-S-(h/j/k/l)>| duplicates respectively
+
+
+================================================================================
+
+3. OPTIONS                                                      *gomove-options*
+
+nvim-gomove can be configured through a lua setup function
+>
+  lua require("gomove").setup {
+    map_defaults = (true/false),
+    reindent_mode = ("vim-move" / "simple" / ("none"/nil))
+    move_past_line = (true/false),
+    ignore_indent_lh_dup = (true/false),
+  }
+<
+================================================================================
+
+|map_defaults|                                             *gomove_map_defaults*
+
+Whether or not to map
+
+- <A-h> to Move Left
+- <A-j> to Move Down
+- <A-k> to Move Up
+- <A-l> to Move Right
+
+- <A-S-h> to Duplicate Left
+- <A-S-j> to Duplicate Down
+- <A-S-k> to Duplicate Up
+- <A-S-l> to Duplicate Right
+
+|reindent-mode|                                           *gomove_reindent_mode*
+
+Option to change how lines moved vertically are reindented
+- "vim-move" (same way vim-move does it)
+- "simple" (simply does a "==" over the selection)
+- "none"/nil (does not reindent)
+
+|move_past_line|                                         *gomove_move_past_line*
+
+Whether or not to move past line when moving horizontally
+- true / false
+
+|ignore_indent_lh_dup|              *gomove_ignore_indent_lh_dup*
+
+Whether or not to move past line when moving horizontally
+- true / false
+
+================================================================================
+
+4. MAPPINGS                                                    *gomove-mappings*
+
+While there are default mappings that are designed to be as intuitive out of the
+box, there is also the option to make your own mappings. Check
+gomove/mappings/smart.lua as an example.
+
+Naming Convention:
+Go, Normal/Visual, Move/Duplicate, Line/Block, Direction
+
+|<Plug>GoNMLineLeft|                                           *
+|<Plug>GoNDLineLeft|                                           *
+

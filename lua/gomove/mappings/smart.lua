@@ -43,7 +43,7 @@ end
 function M.VisualUp(duplicate, distance)
   local mode = vim.fn.visualmode()
   vim.cmd('normal! gv')
-  if mode == 'V' then
+  if mode == 'V' or mode == 'v' then
     local plugToUse = (duplicate and [[\<Plug>GoVDLineUp]] or [[\<Plug>GoVMLineUp]])
     vim.cmd('execute "normal'..distance..plugToUse..'"')
   else
@@ -59,7 +59,7 @@ end
 function M.VisualDown(duplicate, distance)
   local mode = vim.fn.visualmode()
   vim.cmd('normal! gv')
-  if mode == 'V' then
+  if mode == 'V' or mode == 'v' then
     local plugToUse = (duplicate and [[\<Plug>GoVDLineDown]] or [[\<Plug>GoVMLineDown]])
     vim.cmd('execute "normal'..distance..plugToUse..'"')
   else

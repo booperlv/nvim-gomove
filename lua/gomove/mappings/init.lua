@@ -1,7 +1,7 @@
 local M = {}
 
 --Just a small helper
-local function map(allkeys)
+function M.map(allkeys)
   for index, value in ipairs(allkeys) do
     if type(value) == "table" then
       -- mode, key, value, opts
@@ -20,7 +20,7 @@ end
 
 
 function M.SetMaps()
-  map {
+  M.map {
     {'n', '<Plug>GoNMLineLeft',  ":<C-u>lua require('gomove.mappings.base').MoveLineHorizontal(-vim.v.count1)<CR>"},
     {'n', '<Plug>GoNMLineDown',  ":<C-u>lua require('gomove.mappings.base').MoveLineVertical  ( vim.v.count1)<CR>"},
     {'n', '<Plug>GoNMLineUp',    ":<C-u>lua require('gomove.mappings.base').MoveLineVertical  (-vim.v.count1)<CR>"},
