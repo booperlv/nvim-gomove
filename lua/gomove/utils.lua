@@ -1,15 +1,5 @@
 local utils = {}
 
--- merges tables
-function utils.merge(t1, t2)
-  for k, v in pairs(t2) do
-    if (type(v) == "table") and (type(t1[k] or false) == "table") then
-      utils.merge(t1[k], t2[k])
-    else t1[k] = v end
-  end
-  return t1
-end
-
 -- creates a number range
 function utils.range(from, to)
   local result = {}
@@ -72,7 +62,7 @@ end
 function utils.reindent(new_line_start, new_line_end)
   local contains_fold = utils.contains_fold(new_line_start, new_line_end)
   if not contains_fold then
-    local opts = require("gomove.config").opts
+    local opts = require("gomove").opts
     if opts.reindent_mode == 'vim-move' then
       vim.fn.cursor(new_line_start, 1)
 

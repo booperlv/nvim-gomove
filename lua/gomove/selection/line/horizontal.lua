@@ -45,7 +45,7 @@ function lh.duplicate(vim_start, vim_end, count)
   local register = 'z'
   local old_reg_value = vim.fn.getreg(register)
 
-  local opts = require'gomove.config'.opts
+  local opts = require("gomove").opts
   --Go through each line and do action to each separately
   for _, line in ipairs(lines_between) do
     local raw_content = vim.fn.getline(line)

@@ -11,12 +11,12 @@ License: MIT (see |gomove-license|)
 
 CONTENTS                                                       *gomove-contents*
 
-  1. Quick Start ........................... |gomove-quickstart|
-  2. Usage ................................. |gomove-usage|
-  3. Options ............................... |gomove-options|
-  4. Mappings .............................. |gomove-mappings|
-  5. License ............................... |gomove-license|
-  6. Credits ............................... |gomove-credits|
+  1. Quick Start ....................................... |gomove-quickstart|
+  2. Usage ............................................. |gomove-usage|
+  3. Options ........................................... |gomove-options|
+  4. Mappings .......................................... |gomove-mappings|
+  5. License ........................................... |gomove-license|
+  6. Credits ........................................... |gomove-credits|
 
 ================================================================================
 
@@ -78,7 +78,7 @@ nvim-gomove can be configured through a lua setup function
     ignore_indent_lh_dup = (true/false),
   }
 <
-================================================================================
+--------------------------------------------------------------------------------
 
 |map_defaults|                                             *gomove_map_defaults*
 
@@ -116,12 +116,107 @@ Whether or not to move past line when moving horizontally
 4. MAPPINGS                                                    *gomove-mappings*
 
 While there are default mappings that are designed to be as intuitive out of the
-box, there is also the option to make your own mappings. Check
-gomove/mappings/smart.lua as an example.
+box, that is built on these mappings which can serve as a framework. Check
+gomove/mappings/smart.lua as an example of the usage of these mappings.
 
 Naming Convention:
 Go, Normal/Visual, Move/Duplicate, Line/Block, Direction
 
-|<Plug>GoNMLineLeft|                                           *
-|<Plug>GoNDLineLeft|                                           *
+--------------------------------------------------------------------------------
 
+Line Vertical:
+
+<Plug>GoNMLine(Down/Up)
+In Normal Mode, Move current line down/up.
+Moves along folds.
+
+<Plug>GoNVLine(Down/Up)
+In Visual Mode, Move selected lines down/up.
+Moves along folds.
+
+<Plug>GoNDLine(Down/Up)
+In Normal Mode, Duplicate current line down/up.
+Moves along folds.
+
+<Plug>GoVDLine(Down/Up)
+In Visual Mode, Duplicate selected lines down/up.
+Moves along folds.
+
+--------------------------------------------------------------------------------
+
+Line Horizontal:
+
+<Plug>GoNMLine(Left/Right)
+In Normal Mode, Move current line to the left/right by (indent level).
+
+<Plug>GoVMLine(Left/Right)
+In Visual Mode, Move selected lines to the left/right by (indent level).
+
+<Plug>GoNDLine(Left/Right)
+In Normal Mode, Duplicate current line to the left/right.
+The functionality is affected by |ignore_indent_lh_dup|
+
+<Plug>GoVDLine(Left/Right)
+In Visual Mode, Duplicate selected lines to the left/right.
+The functionality is affected by |ignore_indent_lh_dup|
+
+--------------------------------------------------------------------------------
+
+Block Vertical:
+
+<Plug>GoNMBlock(Down/Up)
+In Normal Mode, Move current character down/up.
+Tries to avoid folds.
+
+<Plug>GoVMBlock(Down/Up)
+In Visual Mode, Move selected characters down/up.
+Tries to avoid folds.
+
+<Plug>GoNDBlock(Down/Up)
+In Normal Mode, Duplicate current character down/up.
+Tries to avoid folds.
+
+<Plug>GoVDBlock(Down/Up)
+In Visual Mode, Duplicate selected characters down/up.
+Tries to avoid folds.
+
+--------------------------------------------------------------------------------
+
+Block Horizontal:
+
+<Plug>GoNMBlock(Left/Right)
+In Normal Mode, Move current character left/right.
+
+<Plug>GoVMBlock(Left/Right)
+In Visual Mode, Move selected characters left/right.
+
+<Plug>GoNDBlock(Left/Right)
+In Normal Mode, Duplicate current character left/right.
+
+<Plug>GoVDBlock(Left/Right)
+In Visual Mode, Duplicate selected characters left/right.
+
+--------------------------------------------------------------------------------
+================================================================================
+
+5. License                                                      *gomove-license*
+
+This plugin is licensed under the MIT license.
+
+================================================================================
+
+6. Credits                                                      *gomove-credits*
+
+matze/vim-move (https://github.com/matze/vim-move)
+  much of the initial work was based on this plugin, and many of the code here
+  was reused and refactored for lua. Big thanks to all the people who
+  contributed there :)
+
+t9md/vim-textmanip (https://github.com/t9md/vim-textmanip)
+  many features were made possible using this plugin as a reference, and was a
+  general reference for ideal behaviors. Thank you to the author and all the
+  contributors, it felt very polished :)
+
+================================================================================
+
+vim:ft=help:

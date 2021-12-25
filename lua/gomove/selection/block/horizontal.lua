@@ -14,7 +14,7 @@ function bh.move(vim_start, vim_end, distance)
 
   local destn_start = math.max(1, col_start+distance)
 
-  local opts = require("gomove.config").opts
+  local opts = require("gomove").opts
   if going_right and not opts.move_past_line then
     local temp_lines = vim.fn.getline(vim_start, vim_end)
     local shortest = math.min(unpack(vim.fn.map(temp_lines, "strwidth(v:val)")))
