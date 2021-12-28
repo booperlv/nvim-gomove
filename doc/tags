@@ -1,5 +1,7 @@
 gomove	nvim-gomove.txt	/*gomove*
 gomove-contents	nvim-gomove.txt	/*gomove-contents*
+gomove-credits	nvim-gomove.txt	/*gomove-credits*
+gomove-license	nvim-gomove.txt	/*gomove-license*
 gomove-mappings	nvim-gomove.txt	/*gomove-mappings*
 gomove-options	nvim-gomove.txt	/*gomove-options*
 gomove-quickstart	nvim-gomove.txt	/*gomove-quickstart*

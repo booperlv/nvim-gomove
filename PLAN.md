@@ -45,4 +45,3 @@ lightspeed etc.-->
 ## TODO
 
 - comment more of the code
-- eventually simplify block-vertical
