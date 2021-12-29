@@ -74,7 +74,7 @@ function bv.move(vim_start, vim_end, distance)
   local new_lines_with_trailing_whitespace = vim.b.gomove_lines_with_trailing_whitespace or {}
 
   local undo = require('gomove.undo')
-  local did_undojoin = undo.Handle(
+  undo.Handle(
     (going_down and "down" or "up")
   )
 
@@ -82,7 +82,8 @@ function bv.move(vim_start, vim_end, distance)
   -- we assume that the previous "end column" is still the same and accidentally
   -- delete there, we completely clear the previous
   -- "lines_with_trailing_whitespace" when the move is not undojoined.
-  if not did_undojoin then
+  local same_changed_tick = undo.NoDirection()
+  if not same_changed_tick then
     for index, _ in ipairs(new_lines_with_trailing_whitespace) do
       table.remove(new_lines_with_trailing_whitespace, index)
     end
