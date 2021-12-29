@@ -51,7 +51,8 @@ function lh.duplicate(vim_start, vim_end, count)
     local raw_content = vim.fn.getline(line)
     -- Remove whitespace at start of line
     local current_content = (
-      opts.ignore_indent_lh_duplicate == true
+      --ignore indent line horizontal duplicate
+      opts.ignore_indent_lh_dup == true
       and raw_content:gsub('^%s+', '')
       or raw_content
     )
