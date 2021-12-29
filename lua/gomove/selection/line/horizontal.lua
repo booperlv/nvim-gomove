@@ -36,6 +36,7 @@ function lh.duplicate(vim_start, vim_end, count)
   end
 
   local utils = require("gomove.utils")
+  local going_right = count > 0
 
   local line_start = vim.fn.line(vim_start)
   local line_end = vim.fn.line(vim_end)
@@ -60,12 +61,12 @@ function lh.duplicate(vim_start, vim_end, count)
 
     --Get the current line's content, set a register to it,
     --And paste to the end/indent of each accordingly.
-    if count < 0 then
-      vim.fn.cursor(line, vim.fn.indent(line)+1)
-      vim.cmd('silent! normal! "'..register..math.abs(count).."P")
-    else
+    if going_right then
       vim.fn.cursor(line, #raw_content)
       vim.cmd('silent! normal! "'..register..math.abs(count).."p")
+    else
+      vim.fn.cursor(line, vim.fn.indent(line)+1)
+      vim.cmd('silent! normal! "'..register..math.abs(count).."P")
     end
   end
 

@@ -31,18 +31,19 @@ function bh.move(vim_start, vim_end, distance)
   local register = "z"
   local old_register_value = vim.fn.getreg("register")
 
-  local undo = require("gomove.undo")
-  undo.Handle(
-    (going_right and "right" or "left")
-  )
-  vim.cmd("silent! normal! \""..register.."x")
-
   local old_virtualedit = vim.o.virtualedit
   if destn_start >= vim.fn.col("$") then
     vim.o.virtualedit = "all"
   else
     vim.o.virtualedit = ""
   end
+
+  local undo = require("gomove.undo")
+  undo.Handle(
+    (going_right and "right" or "left")
+  )
+  vim.cmd("silent! normal! \""..register.."x")
+
   vim.fn.cursor(vim.fn.line("."), destn_start)
   vim.cmd("silent! normal! \""..register.."P")
 
