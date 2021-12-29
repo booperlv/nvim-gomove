@@ -14,8 +14,9 @@ function bv.move(vim_start, vim_end, distance)
   local line_end = vim.fn.line(vim_end)
   local height = utils.user_height(line_start, line_end)
 
-  local col_start = vim.fn.col(vim_start)
-  local col_end = vim.fn.col(vim_end)
+  local temp_cols = {vim.fn.col(vim_start), vim.fn.col(vim_end)}
+  local col_start = math.min(unpack(temp_cols))
+  local col_end = math.max(unpack(temp_cols))
   local width = col_end - col_start
 
   if utils.contains_fold(line_start, line_end) then
