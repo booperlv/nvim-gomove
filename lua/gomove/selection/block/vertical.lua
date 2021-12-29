@@ -71,14 +71,6 @@ function bv.move(vim_start, vim_end, distance)
   end
 
   local new_lines_with_trailing_whitespace = vim.b.gomove_lines_with_trailing_whitespace or {}
-  local function line_exists_between_selection(val)
-    for _, pos in ipairs(all_pos_between) do
-      if pos[1] == val[1] then
-        return true
-      end
-    end
-    return false
-  end
 
   local undo = require('gomove.undo')
   local did_undojoin = undo.Handle(
@@ -129,20 +121,33 @@ function bv.move(vim_start, vim_end, distance)
 --}}}
   --Trailing whitespace deletion/adding new values{{{
 
+  local function line_exists_between_destination(val)
+    for _, pos in ipairs(all_pos_between) do
+      if pos[1] == val[1] then
+        return true
+      end
+    end
+    return false
+  end
+
   --Delete trailing whitespace from previous move
+  local indexes_to_remove = {}
   if next(new_lines_with_trailing_whitespace) ~= nil then
     for index, pos in ipairs(new_lines_with_trailing_whitespace) do
       --We check here if it doesn't exist inside lines, to get rid of the trailing
       --whitespace and the item on the array ONLY ONCE we have moved past it.
       --Also, check if it is not blank, to make sure that we do not remove lines.
-      if not line_exists_between_selection(pos) then
+      if not line_exists_between_destination(pos) then
         if vim.fn.getline(pos[1]) ~= '' then
           vim.fn.cursor(pos)
-          vim.cmd('normal! dw')
-          table.remove(new_lines_with_trailing_whitespace, index)
+          vim.cmd('normal!dw')
+          table.insert(indexes_to_remove, index)
         end
       end
     end
+  end
+  for _, value in ipairs(indexes_to_remove) do
+    table.remove(new_lines_with_trailing_whitespace, value)
   end
 
   vim.b.gomove_lines_with_trailing_whitespace = new_lines_with_trailing_whitespace
