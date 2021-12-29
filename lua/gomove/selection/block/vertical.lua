@@ -178,7 +178,7 @@ function bv.duplicate(vim_start, vim_end, count)
 
   local line_start = vim.fn.line(vim_start)
   local line_end = vim.fn.line(vim_end)
-  local height = utils.user_height(line_start, line_end)
+  local height = utils.user_height(line_start, line_end)-1
 
   local temp_cols = {vim.fn.col(vim_start), vim.fn.col(vim_end)}
   local col_start = math.min(unpack(temp_cols))
@@ -208,9 +208,10 @@ function bv.duplicate(vim_start, vim_end, count)
 
   local destn = require('gomove.selection')
   while (amount_of_times_done <= math.abs(count)) do
+    local to_move = 1+height
     destn_line_start, destn_line_end = destn.Handle(
       "b", destn_line_start, destn_line_end,
-      (going_down and 1 or -1)
+      (going_down and to_move or -to_move)
     )
     utils.open_fold(destn_line_start, destn_line_end)
 
