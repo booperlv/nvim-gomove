@@ -2,6 +2,8 @@
 
 A complete plugin for moving and duplicating blocks and lines, with complete fold handling, reindenting, and undoing in one go.
 
+https://user-images.githubusercontent.com/65604882/147652973-62e30299-946d-4924-8766-0366016f70de.mp4
+
 ## Requirements
 
 This plugin works with NeoVim v0.5 or later.
