@@ -79,6 +79,68 @@ lua require("gomove").setup {
 }
 ```
 
+## Mappings
+
+While there are default mappings, called "smart mappings" that are designed to
+be as intuitive as possible out of the box - that itself is built on "base"
+mappings which can serve as a framework for creating your own mappings. Check
+gomove/mappings/smart.lua as an example of the usage of the "base" mappings.
+
+```
+Naming Convention:
+Go, Normal/Visual, Smart/nil, Move/Duplicate, Line/Block, Direction
+```
+
+## Smart Mappings:
+
+| Name | Function |
+|------|----------|
+| Vertical |
+| \<Plug\>GoNSM(Up/Down) | Normal Smart Move Up/Down |
+| \<Plug\>GoVSM(Up/Down) | Visual Smart Move Up/Down |
+| \<Plug\>GoNSD(Up/Down) | Normal Smart Duplicate Up/Down |
+| \<Plug\>GoVSD(Up/Down) | Visual Smart Duplicate Up/Down |
+| Horizontal |
+| \<Plug\>GoNSM(Left/Right) | Normal Smart Move Left/Right |
+| \<Plug\>GoVSM(Left/Right) | Visual Smart Move Left/Right |
+| \<Plug\>GoNSD(Left/Right) | Normal Smart Duplicate Left/Right |
+| \<Plug\>GoVSD(Left/Right) | Visual Smart Duplicate Left/Right |
+
+### Functionality is already explained in [Usage](#usage)
+
+## Base Mappings:
+
+### Lines:
+
+| Name | Function |
+|------|----------|
+| Vertical |
+| \<Plug\>GoNMLine(Down/Up) | In Normal Mode, Move current line down/up. Moves along folds. |
+| \<Plug\>GoNVLine(Down/Up) | In Visual Mode, Move selected lines down/up. Moves along folds. |
+| \<Plug\>GoNDLine(Down/Up) |  In Normal Mode, Duplicate current line down/up. |
+| \<Plug\>GoVDLine(Down/Up) | In Visual Mode, Duplicate selected lines down/up. |
+| Horizontal |
+| \<Plug\>GoNMLine(Left/Right) | In Normal Mode, Move current line to the left/right by (indent level). |
+| \<Plug\>GoVMLine(Left/Right) | In Visual Mode, Move selected lines to the left/right by (indent level). |
+| \<Plug\>GoNDLine(Left/Right) | In Normal Mode, Duplicate current line to the left/right. The functionality is affected by ignore_indent_lh_dup |
+| \<Plug\>GoNDLine(Left/Right) | In Visual Mode, Duplicate selected lines to the left/right. The functionality is affected by ignore_indent_lh_dup |
+
+### Blocks: 
+
+| Name | Function |
+|------|----------|
+| Vertical |
+| \<Plug\>GoNMBlock(Down/Up) | In Normal Mode, Move current character down/up. Tries to avoid folds. |
+| \<Plug\>GoVMBlock(Down/Up) | In Visual Mode, Move selected characters down/up. Tries to avoid folds. |
+| \<Plug\>GoNDBlock(Down/Up) | In Normal Mode, Duplicate current character down/up. Tries to avoid folds. |
+| \<Plug\>GoVDBlock(Down/Up) | In Visual Mode, Duplicate selected characters down/up. Tries to avoid folds. |
+| Horizontal |
+| <Plug>GoNMBlock(Left/Right) | In Normal Mode, Move current character left/right. |
+| <Plug>GoVMBlock(Left/Right) | In Visual Mode, Move selected characters left/right. |
+| <Plug>GoNDBlock(Left/Right) | In Normal Mode, Duplicate current character left/right. |
+| <Plug>GoVDBlock(Left/Right) | In Visual Mode, Duplicate selected characters left/right. |
+
+
 ## Special Mentions
 
 - [matze/vim-move](https://github.com/matze/vim-move), much of the initial work was based on this plugin

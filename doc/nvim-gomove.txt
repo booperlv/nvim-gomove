@@ -15,6 +15,8 @@ CONTENTS                                                       *gomove-contents*
   2. Usage ............................................. |gomove-usage|
   3. Options ........................................... |gomove-options|
   4. Mappings .......................................... |gomove-mappings|
+    4.1 Smart Mappings ................................. |gomove-mappings-smart|
+    4.2 Base Mappings .................................. |gomove-mappings-base|
   5. License ........................................... |gomove-license|
   6. Credits ........................................... |gomove-credits|
 
@@ -115,12 +117,56 @@ Whether or not to move past line when moving horizontally
 
 4. MAPPINGS                                                    *gomove-mappings*
 
-While there are default mappings that are designed to be as intuitive out of the
-box, that is built on these mappings which can serve as a framework. Check
-gomove/mappings/smart.lua as an example of the usage of these mappings.
+While there are default mappings, called "smart mappings" that are designed to
+be as intuitive as possible out of the box - that itself is built on "base"
+mappings which can serve as a framework for creating your own mappings. Check
+gomove/mappings/smart.lua as an example of the usage of the "base" mappings.
 
 Naming Convention:
-Go, Normal/Visual, Move/Duplicate, Line/Block, Direction
+Go, Normal/Visual, Smart/nil, Move/Duplicate, Line/Block, Direction
+
+--------------------------------------------------------------------------------
+
+4.1 SMART MAPPINGS                                       *gomove-mappings-smart*
+utilizing the base mappings are follows:
+
+--------------------------------------------------------------------------------
+
+Move:
+
+<Plug>GoNSMLeft
+<Plug>GoVSMLeft
+
+<Plug>GoNSMDown
+<Plug>GoVSMDown
+
+<Plug>GoNSMUp 
+<Plug>GoVSMUp 
+
+<Plug>GoNSMRight
+<Plug>GoVSMRight
+
+--------------------------------------------------------------------------------
+
+Duplicate:
+
+<Plug>GoNSDLeft
+<Plug>GoVSDLeft
+
+<Plug>GoNSDDown
+<Plug>GoVSDDown
+
+<Plug>GoNSDUp 
+<Plug>GoVSDUp 
+
+<Plug>GoNSDRight
+<Plug>GoVSDRight
+
+To understand it's functionality, take a look at |gomove-usage|!
+
+--------------------------------------------------------------------------------
+
+4.2 BASE MAPPINGS                                         *gomove-mappings-base*
 
 --------------------------------------------------------------------------------
 
