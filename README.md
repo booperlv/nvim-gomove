@@ -67,7 +67,7 @@ The default "smart" move mappings work this way:
 ## Configuration
 
 ```lua
-lua require("gomove").setup {
+require("gomove").setup {
   -- whether or not to map default key bindings, (true/false)
   map_defaults = true,
   -- what method to use for reindenting, ("vim-move" / "simple" / ("none"/nil))
@@ -90,6 +90,57 @@ gomove/mappings/smart.lua as an example of the usage of the "base" mappings.
 Naming Convention:
 Go, Normal/Visual, Smart/nil, Move/Duplicate, Line/Block, Direction
 ```
+
+## Example for Changing Default (Smart) Keybinds:
+
+Just a reminder to set the option `map_defaults = false` in the setup function
+
+```vim
+nnoremap <S-h> <Plug>GoNSMLeft
+nnoremap <S-j> <Plug>GoNSMDown
+nnoremap <S-k> <Plug>GoNSMUp
+nnoremap <S-l> <Plug>GoNSMRight
+
+xnoremap <S-h> <Plug>GoVSMLeft
+xnoremap <S-j> <Plug>GoVSMDown
+xnoremap <S-k> <Plug>GoVSMUp
+xnoremap <S-l> <Plug>GoVSMRight
+
+nnoremap <C-h> <Plug>GoNSDLeft
+nnoremap <C-j> <Plug>GoNSDDown
+nnoremap <C-k> <Plug>GoNSDUp
+nnoremap <C-l> <Plug>GoNSDRight
+
+xnoremap <C-h> <Plug>GoVSDLeft
+xnoremap <C-j> <Plug>GoVSDDown
+xnoremap <C-k> <Plug>GoVSDUp
+xnoremap <C-l> <Plug>GoVSDRight
+```
+
+```lua
+local map = vim.api.nvim_set_keymap
+
+map({ "n", "<S-h>", "<Plug>GoNSMLeft", {} })
+map({ "n", "<S-j>", "<Plug>GoNSMDown", {} })
+map({ "n", "<S-k>", "<Plug>GoNSMUp", {} })
+map({ "n", "<S-l>", "<Plug>GoNSMRight", {} })
+
+map({ "x", "<S-h>", "<Plug>GoVSMLeft", {} })
+map({ "x", "<S-j>", "<Plug>GoVSMDown", {} })
+map({ "x", "<S-k>", "<Plug>GoVSMUp", {} })
+map({ "x", "<S-l>", "<Plug>GoVSMRight", {} })
+
+map({ "n", "<C-h>", "<Plug>GoNSDLeft", {} })
+map({ "n", "<C-j>", "<Plug>GoNSDDown", {} })
+map({ "n", "<C-k>", "<Plug>GoNSDUp", {} })
+map({ "n", "<C-l>", "<Plug>GoNSDRight", {} })
+
+map({ "x", "<C-h>", "<Plug>GoVSDLeft", {} })
+map({ "x", "<C-j>", "<Plug>GoVSDDown", {} })
+map({ "x", "<C-k>", "<Plug>GoVSDUp", {} })
+map({ "x", "<C-l>", "<Plug>GoVSDRight", {} })
+```
+
 
 ## Smart Mappings:
 
