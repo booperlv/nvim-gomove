@@ -76,7 +76,7 @@ nvim-gomove can be configured through a lua setup function
   lua require("gomove").setup {
     map_defaults = (true/false),
     reindent_mode = ("vim-move" / "simple" / ("none"/nil))
-    move_past_line = (true/false),
+    move_past_end_col = (true/false),
     ignore_indent_lh_dup = (true/false),
   }
 <
@@ -96,14 +96,14 @@ Whether or not to map
 - <A-S-k> to Duplicate Up
 - <A-S-l> to Duplicate Right
 
-|reindent-mode|                                           *gomove_reindent_mode*
+|reindent-mode|                                            *gomove_reindent_mode*
 
 Option to change how lines moved vertically are reindented
 - "vim-move" (same way vim-move does it)
 - "simple" (simply does a "==" over the selection)
 - "none"/nil (does not reindent)
 
-|move_past_line|                                         *gomove_move_past_line*
+|move_past_end_col|                                     *gomove_move_past_end_col*
 
 Whether or not to move past line when moving horizontally
 - true / false

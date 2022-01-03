@@ -3,10 +3,12 @@ gomove-contents	nvim-gomove.txt	/*gomove-contents*
 gomove-credits	nvim-gomove.txt	/*gomove-credits*
 gomove-license	nvim-gomove.txt	/*gomove-license*
 gomove-mappings	nvim-gomove.txt	/*gomove-mappings*
+gomove-mappings-base	nvim-gomove.txt	/*gomove-mappings-base*
+gomove-mappings-smart	nvim-gomove.txt	/*gomove-mappings-smart*
 gomove-options	nvim-gomove.txt	/*gomove-options*
 gomove-quickstart	nvim-gomove.txt	/*gomove-quickstart*
 gomove-usage	nvim-gomove.txt	/*gomove-usage*
 gomove_ignore_indent_lh_dup	nvim-gomove.txt	/*gomove_ignore_indent_lh_dup*
 gomove_map_defaults	nvim-gomove.txt	/*gomove_map_defaults*
-gomove_move_past_line	nvim-gomove.txt	/*gomove_move_past_line*
+gomove_move_past_end_col nvim-gomove.txt	/*gomove_move_end_col*
 gomove_reindent_mode	nvim-gomove.txt	/*gomove_reindent_mode*
