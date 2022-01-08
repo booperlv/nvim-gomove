@@ -96,25 +96,25 @@ Go, Normal/Visual, Smart/nil, Move/Duplicate, Line/Block, Direction
 Just a reminder to set the option `map_defaults = false` in the setup function
 
 ```vim
-nnoremap <S-h> <Plug>GoNSMLeft
-nnoremap <S-j> <Plug>GoNSMDown
-nnoremap <S-k> <Plug>GoNSMUp
-nnoremap <S-l> <Plug>GoNSMRight
+nmap <S-h> <Plug>GoNSMLeft
+nmap <S-j> <Plug>GoNSMDown
+nmap <S-k> <Plug>GoNSMUp
+nmap <S-l> <Plug>GoNSMRight
 
-xnoremap <S-h> <Plug>GoVSMLeft
-xnoremap <S-j> <Plug>GoVSMDown
-xnoremap <S-k> <Plug>GoVSMUp
-xnoremap <S-l> <Plug>GoVSMRight
+xmap <S-h> <Plug>GoVSMLeft
+xmap <S-j> <Plug>GoVSMDown
+xmap <S-k> <Plug>GoVSMUp
+xmap <S-l> <Plug>GoVSMRight
 
-nnoremap <C-h> <Plug>GoNSDLeft
-nnoremap <C-j> <Plug>GoNSDDown
-nnoremap <C-k> <Plug>GoNSDUp
-nnoremap <C-l> <Plug>GoNSDRight
+nmap <C-h> <Plug>GoNSDLeft
+nmap <C-j> <Plug>GoNSDDown
+nmap <C-k> <Plug>GoNSDUp
+nmap <C-l> <Plug>GoNSDRight
 
-xnoremap <C-h> <Plug>GoVSDLeft
-xnoremap <C-j> <Plug>GoVSDDown
-xnoremap <C-k> <Plug>GoVSDUp
-xnoremap <C-l> <Plug>GoVSDRight
+xmap <C-h> <Plug>GoVSDLeft
+xmap <C-j> <Plug>GoVSDDown
+xmap <C-k> <Plug>GoVSDUp
+xmap <C-l> <Plug>GoVSDRight
 ```
 
 ```lua
