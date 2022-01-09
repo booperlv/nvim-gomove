@@ -101,6 +101,11 @@ Whether or not to map
 Whether or not to reindent lines moved vertically
 - true / false
 
+|undojoin|                                                     *gomove_undojoin*
+
+Whether or not to undojoin same direction moves
+- true / false
+
 |move_past_end_col|                                   *gomove_move_past_end_col*
 
 Whether or not to move past line when moving horizontally
