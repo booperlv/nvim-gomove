@@ -62,26 +62,20 @@ end
 function utils.reindent(new_line_start, new_line_end)
   local contains_fold = utils.contains_fold(new_line_start, new_line_end)
   if not contains_fold then
-    local opts = require("gomove").opts
-    if opts.reindent_mode == 'vim-move' then
-      vim.fn.cursor(new_line_start, 1)
+    vim.fn.cursor(new_line_start, 1)
 
-      local old_indent = vim.fn.indent('.')
-      vim.cmd("silent! normal! ==")
-      local new_indent = vim.fn.indent('.')
+    local old_indent = vim.fn.indent('.')
+    vim.cmd("silent! normal! ==")
+    local new_indent = vim.fn.indent('.')
 
-      if new_line_start < new_line_end and old_indent ~= new_indent then
-        local op = (old_indent < new_indent
-          and string.rep(">", new_indent - old_indent)
-          or string.rep("<", old_indent - new_indent))
-        local old_sw = vim.fn.shiftwidth()
-        vim.o.shiftwidth = 1
-        vim.cmd('silent! '..new_line_start+1 ..','..new_line_end..op)
-        vim.o.shiftwidth = old_sw
-      end
-    elseif opts.reindent_mode == 'simple' then
-      vim.cmd('silent!'..new_line_start..','..new_line_end.."normal!==")
-    elseif opts.reindent_mode == 'none' or opts.reindent_mode == nil then
+    if new_line_start < new_line_end and old_indent ~= new_indent then
+      local op = (old_indent < new_indent
+        and string.rep(">", new_indent - old_indent)
+        or string.rep("<", old_indent - new_indent))
+      local old_sw = vim.fn.shiftwidth()
+      vim.o.shiftwidth = 1
+      vim.cmd('silent! '..new_line_start+1 ..','..new_line_end..op)
+      vim.o.shiftwidth = old_sw
     end
   end
   return new_line_start, new_line_end

@@ -75,7 +75,7 @@ nvim-gomove can be configured through a lua setup function
 >
   lua require("gomove").setup {
     map_defaults = (true/false),
-    reindent_mode = ("vim-move" / "simple" / ("none"/nil))
+    reindent = (true/false),
     move_past_end_col = (true/false),
     ignore_indent_lh_dup = (true/false),
   }
@@ -96,19 +96,17 @@ Whether or not to map
 - <A-S-k> to Duplicate Up
 - <A-S-l> to Duplicate Right
 
-|reindent-mode|                                            *gomove_reindent_mode*
+|reindent|                                                     *gomove_reindent*
 
-Option to change how lines moved vertically are reindented
-- "vim-move" (same way vim-move does it)
-- "simple" (simply does a "==" over the selection)
-- "none"/nil (does not reindent)
+Whether or not to reindent lines moved vertically
+- true / false
 
-|move_past_end_col|                                     *gomove_move_past_end_col*
+|move_past_end_col|                                   *gomove_move_past_end_col*
 
 Whether or not to move past line when moving horizontally
 - true / false
 
-|ignore_indent_lh_dup|              *gomove_ignore_indent_lh_dup*
+|ignore_indent_lh_dup|                             *gomove_ignore_indent_lh_dup*
 
 Whether or not to move past line when moving horizontally
 - true / false
@@ -122,13 +120,13 @@ be as intuitive as possible out of the box - that itself is built on "base"
 mappings which can serve as a framework for creating your own mappings. Check
 gomove/mappings/smart.lua as an example of the usage of the "base" mappings.
 
-Naming Convention:
-Go, Normal/Visual, Smart/nil, Move/Duplicate, Line/Block, Direction
-
 --------------------------------------------------------------------------------
 
 4.1 SMART MAPPINGS                                       *gomove-mappings-smart*
 utilizing the base mappings are follows:
+
+Naming Convention:
+Go, Normal/Visual, Smart, Move/Duplicate, Direction
 
 --------------------------------------------------------------------------------
 
@@ -167,6 +165,9 @@ To understand it's functionality, take a look at |gomove-usage|!
 --------------------------------------------------------------------------------
 
 4.2 BASE MAPPINGS                                         *gomove-mappings-base*
+
+Naming Convention:
+Go, Normal/Visual, Move/Duplicate, Line/Block, Direction
 
 --------------------------------------------------------------------------------
 
@@ -264,5 +265,3 @@ t9md/vim-textmanip (https://github.com/t9md/vim-textmanip)
   contributors, it felt very polished :)
 
 ================================================================================
-
-vim:ft=help:

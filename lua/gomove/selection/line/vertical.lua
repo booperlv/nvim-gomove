@@ -44,7 +44,10 @@ function lv.move(vim_start, vim_end, distance)
   -- Reindenting Setting New Position{{{
   local new_line_start = vim.fn.line("'[")
   local new_line_end = vim.fn.line("']")
-  utils.reindent(new_line_start, new_line_end)
+  local opts = require("gomove").opts
+  if opts.reindent == true then
+    utils.reindent(new_line_start, new_line_end)
+  end
 
   vim.fn.cursor(new_line_start, 1)
   vim.cmd("normal! 0m[")

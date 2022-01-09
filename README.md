@@ -70,8 +70,8 @@ The default "smart" move mappings work this way:
 require("gomove").setup {
   -- whether or not to map default key bindings, (true/false)
   map_defaults = true,
-  -- what method to use for reindenting, ("vim-move" / "simple" / ("none"/nil))
-  reindent_mode = "vim-move",
+  -- whether or not to reindent lines moved vertically (true/false)
+  reindent = true,
   -- whether to not to move past end column when moving blocks horizontally, (true/false)
   move_past_end_col = false,
   -- whether or not to ignore indent when duplicating lines horizontally, (true/false)
@@ -85,11 +85,6 @@ While there are default mappings, called "smart mappings" that are designed to
 be as intuitive as possible out of the box - that itself is built on "base"
 mappings which can serve as a framework for creating your own mappings. Check
 gomove/mappings/smart.lua as an example of the usage of the "base" mappings.
-
-```
-Naming Convention:
-Go, Normal/Visual, Smart/nil, Move/Duplicate, Line/Block, Direction
-```
 
 ## Example for Changing Default (Smart) Keybinds:
 
@@ -144,6 +139,11 @@ map( "x", "<C-l>", "<Plug>GoVSDRight", {} )
 
 ## Smart Mappings:
 
+```
+Naming Convention:
+Go, Normal/Visual, Smart, Move/Duplicate, Direction
+```
+
 | Name | Function |
 |------|----------|
 | Vertical |
@@ -160,6 +160,11 @@ map( "x", "<C-l>", "<Plug>GoVSDRight", {} )
 ### Functionality is already explained in [Usage](#usage)
 
 ## Base Mappings:
+
+```
+Naming Convention:
+Go, Normal/Visual, Move/Duplicate, Line/Block, Direction
+```
 
 ### Lines:
 
