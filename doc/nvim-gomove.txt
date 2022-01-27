@@ -77,7 +77,6 @@ nvim-gomove can be configured through a lua setup function
     map_defaults = (true/false),
     reindent = (true/false),
     move_past_end_col = (true/false),
-    ignore_indent_lh_dup = (true/false),
   }
 <
 --------------------------------------------------------------------------------
@@ -107,11 +106,6 @@ Whether or not to undojoin same direction moves
 - true / false
 
 |move_past_end_col|                                   *gomove_move_past_end_col*
-
-Whether or not to move past line when moving horizontally
-- true / false
-
-|ignore_indent_lh_dup|                             *gomove_ignore_indent_lh_dup*
 
 Whether or not to move past line when moving horizontally
 - true / false
@@ -206,11 +200,11 @@ In Visual Mode, Move selected lines to the left/right by (indent level).
 
 <Plug>GoNDLine(Left/Right)
 In Normal Mode, Duplicate current line to the left/right.
-The functionality is affected by |ignore_indent_lh_dup|
+Duplicating left ignores whitespace at the start of the text that it duplicates.
 
 <Plug>GoVDLine(Left/Right)
 In Visual Mode, Duplicate selected lines to the left/right.
-The functionality is affected by |ignore_indent_lh_dup|
+Duplicating left ignores whitespace at the start of the text that it duplicates.
 
 --------------------------------------------------------------------------------
 

@@ -76,8 +76,6 @@ require("gomove").setup {
   undojoin = true,
   -- whether to not to move past end column when moving blocks horizontally, (true/false)
   move_past_end_col = false,
-  -- whether or not to ignore indent when duplicating lines horizontally, (true/false)
-  ignore_indent_lh_dup = true,
 }
 ```
 
@@ -180,8 +178,8 @@ Go, Normal/Visual, Move/Duplicate, Line/Block, Direction
 | Horizontal |
 | \<Plug\>GoNMLine(Left/Right) | In Normal Mode, Move current line to the left/right by (indent level). |
 | \<Plug\>GoVMLine(Left/Right) | In Visual Mode, Move selected lines to the left/right by (indent level). |
-| \<Plug\>GoNDLine(Left/Right) | In Normal Mode, Duplicate current line to the left/right. The functionality is affected by ignore_indent_lh_dup |
-| \<Plug\>GoNDLine(Left/Right) | In Visual Mode, Duplicate selected lines to the left/right. The functionality is affected by ignore_indent_lh_dup |
+| \<Plug\>GoNDLine(Left/Right) | In Normal Mode, Duplicate current line to the left/right. Duplicating left ignores whitespace at the start of the text that it duplicates. |
+| \<Plug\>GoVDLine(Left/Right) | In Visual Mode, Duplicate selected lines to the left/right. Duplicating left ignores whitespace at the start of the text that it duplicates. |
 
 ### Blocks: 
 

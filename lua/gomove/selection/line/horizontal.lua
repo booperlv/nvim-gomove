@@ -46,14 +46,13 @@ function lh.duplicate(vim_start, vim_end, count)
   local register = 'z'
   local old_reg_value = vim.fn.getreg(register)
 
-  local opts = require("gomove").opts
   --Go through each line and do action to each separately
   for _, line in ipairs(lines_between) do
     local raw_content = vim.fn.getline(line)
     -- Remove whitespace at start of line
     local current_content = (
-      --ignore indent line horizontal duplicate
-      opts.ignore_indent_lh_dup == true
+      not going_right
+      --ignore indent when going left
       and raw_content:gsub('^%s+', '')
       or raw_content
     )
