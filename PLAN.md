@@ -45,3 +45,5 @@ lightspeed etc.-->
 ## TODO
 
 - comment more of the code
+- codebase cleanup/refactoring
+- add plenary tests

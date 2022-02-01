@@ -35,7 +35,7 @@ function bv.move(vim_start, vim_end, distance)
   local destn_col_start = col_start
 --}}}
   --Compute destination line{{{
-  local destn = require('gomove.selection')
+  local destn = require('gomove.selection.handle_vertical')
   local destn_line_start, destn_line_end = destn.Handle(
     "b", line_start, line_end, distance
   )
@@ -207,7 +207,7 @@ function bv.duplicate(vim_start, vim_end, count)
 
   local amount_of_times_done = 1
 
-  local destn = require('gomove.selection')
+  local destn = require('gomove.selection.handle_vertical')
   while (amount_of_times_done <= math.abs(count)) do
     local to_move = 1+height
     destn_line_start, destn_line_end = destn.Handle(

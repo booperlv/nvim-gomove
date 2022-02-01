@@ -14,7 +14,7 @@ function lv.move(vim_start, vim_end, distance)
   local line_end = vim.fn.line(vim_end)
 --}}}
   -- Compute Destination Line{{{
-  local destn = require('gomove.selection')
+  local destn = require('gomove.selection.handle_vertical')
   local destn_start, destn_end = destn.Handle(
     "l", line_start, line_end, distance
   )
