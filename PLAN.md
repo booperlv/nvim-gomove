@@ -26,11 +26,8 @@
   - [x] smart.lua
 
 - [x] utils.lua
-
 - [x] undo.lua (undo/undo parse handling)
-
-- [x] config.lua (handle configuration/settings)
-- [x] init.lua (interface to config/setup function)
+- [x] init.lua (handle configuration/settings)
 
 ## Planned
 
@@ -44,6 +41,28 @@ lightspeed etc.-->
 
 ## TODO
 
-- comment more of the code
-- codebase cleanup/refactoring
+- comment more of the code 
+
+- codebase cleanup/refactoring + bug fixing
+  - [ ] mappings
+    (could be made more intuitive and less repetitive)
+    - [ ] base
+    - [ ] init
+    - [ ] smart
+  - [ ] selections
+    - [x] handle_vertical
+    - [ ] block
+      - [ ] vertical
+        (functionality doesn't always works as expected)
+      - [ ] horizontal
+        (functionality fixes - such as with unicode 2 width chars)
+    - [ ] line
+      - [ ] vertical
+        (functionality is perfect, but commenting and cleanup)
+      - [ ] horizontal
+        (commenting and cleanup)
+  - [x] init.lua
+  - [x] undo.lua
+  - [x] utils.lua
+
 - add plenary tests

@@ -6,26 +6,22 @@ function bh.move(vim_start, vim_end, distance)
   end
 
   local going_right = (distance > 0)
+  local col_start = vim.fn.col(vim_start)
+  local col_end = vim.fn.col(vim_end)
+  local width = col_end - col_start
 
-  local temp_cols = {vim.fn.col(vim_start), vim.fn.col(vim_end)}
-  local col_start = math.min(unpack(temp_cols))
-  local col_end = math.max(unpack(temp_cols))
-  local width = col_end - col_start + 1
-
-  local destn_start = math.max(1, col_start+distance)
+  local destn_start = col_start+distance
 
   local opts = require("gomove").opts
+  local lines = vim.fn.getline(vim_start, vim_end)
   if going_right and not opts.move_past_end_col then
-    local temp_lines = vim.fn.getline(vim_start, vim_end)
-    local shortest = math.min(unpack(vim.fn.map(temp_lines, "strwidth(v:val)")))
-    if col_end < shortest then
-      destn_start = math.min(destn_start, shortest-width+1)
+    local shortest_line = table.sort(lines, function(a,b) return #a<#b end)
+    if col_end < shortest_line then
+      destn_start = math.min(destn_start, shortest_line-width)
     else
-      destn_start = col_start
+      -- don't move anymore
+      return false
     end
-  end
-  if col_start == destn_start then
-    return false
   end
 
   local register = "z"
@@ -63,9 +59,8 @@ function bh.duplicate(vim_start, vim_end, count)
     return false
   end
 
-  local temp_cols = {vim.fn.col(vim_start), vim.fn.col(vim_end)}
-  local col_start = math.min(unpack(temp_cols))
-  local col_end = math.max(unpack(temp_cols))
+  local col_start = vim.fn.col(vim_start)
+  local col_end = vim.fn.col(vim_end)
   local width = col_end - col_start
 
   local going_right = (count > 0)
