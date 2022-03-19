@@ -9,9 +9,25 @@ function bh.move(vim_start, vim_end, distance)
   local col_start = vim.fn.col(vim_start)
   local col_end = vim.fn.col(vim_end)
   local width = col_end - col_start
+  local register = "z"
+  local old_register_value = vim.fn.getreg("register")
 
-  local destn_start = col_start+distance
+  -- start undojoin and delete
+  local undo = require("gomove.undo")
+  undo.Handle((going_right and "right" or "left"))
+  vim.cmd("silent! normal! \""..register.."x")
 
+  -- go to new destination
+  local destn_start
+  local old_virtualedit = vim.o.virtualedit
+  vim.o.virtualedit = "all"
+  if going_right then
+    vim.cmd('normal!'..distance..'l')
+  else
+    vim.cmd('normal!'..-distance..'h')
+  end
+  destn_start = vim.fn.col(".")
+  -- correct based on option to move past end column of shortest line
   local opts = require("gomove").opts
   local lines = vim.fn.getline(vim_start, vim_end)
   if going_right and not opts.move_past_end_col then
@@ -24,31 +40,14 @@ function bh.move(vim_start, vim_end, distance)
     end
   end
 
-  local register = "z"
-  local old_register_value = vim.fn.getreg("register")
-
-  local undo = require("gomove.undo")
-  undo.Handle(
-    (going_right and "right" or "left")
-  )
-  vim.cmd("silent! normal! \""..register.."x")
-
-  local old_virtualedit = vim.o.virtualedit
-  if destn_start >= vim.fn.col("$") then
-    vim.o.virtualedit = "all"
-  else
-    vim.o.virtualedit = ""
-  end
-
+  -- paste
   vim.fn.cursor(vim.fn.line("."), destn_start)
   vim.cmd("silent! normal! \""..register.."P")
-
+  -- fix register and virtualedit
   vim.o.virtualedit = old_virtualedit
   vim.fn.setreg(register, old_register_value)
-
-  undo.Save(
-    (going_right and "right" or "left")
-  )
+  -- complete undo
+  undo.Save((going_right and "right" or "left"))
 
   return true
 end
@@ -59,11 +58,10 @@ function bh.duplicate(vim_start, vim_end, count)
     return false
   end
 
+  local going_right = (count > 0)
   local col_start = vim.fn.col(vim_start)
   local col_end = vim.fn.col(vim_end)
   local width = col_end - col_start
-
-  local going_right = (count > 0)
 
   --The distance will always be 1 or -1, count is just the amount of times we
   --do it. This is automatically the destination.

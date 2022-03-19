@@ -42,6 +42,7 @@ lightspeed etc.-->
 ## TODO
 
 - comment more of the code 
+- explore treesitter capability
 
 - codebase cleanup/refactoring + bug fixing
   - [ ] mappings

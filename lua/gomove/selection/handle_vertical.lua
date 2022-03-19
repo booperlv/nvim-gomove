@@ -26,20 +26,20 @@ local function block_move(going_down, next_position, height)
   if going_down then
     vim.cmd("normal! j")
     next_position = vim.fn.line(".") + (height-1)
-    -- workaround for end of file is fold{{{
+    -- workaround for end of file is fold
     if utils.fold_end(next_position) >= vim.fn.line('$') then
       next_position = prev_position
-    end--}}}
+    end
   else
     vim.cmd("normal! k")
     next_position = vim.fn.line(".") - (height-1)
-    -- workaround for start of file is fold{{{
+    -- workaround for start of file is fold
     if next_position <= 1 then
       vim.cmd("normal! j")
       next_position = utils.fold_end(vim.fn.line(".")) - 1
       return next_position, true
     end
-  end--}}}
+  end
   return next_position, false
 end
 
@@ -58,6 +58,8 @@ local function line_move(going_down, next_position)
   end
   return next_position, false
 end
+
+------------- MAIN FUNCTION --------------
 
 function M.Handle(l_or_b, start_low, start_high, distance)
   local going_down = (distance > 0)
