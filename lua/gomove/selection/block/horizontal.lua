@@ -12,6 +12,10 @@ function bh.move(vim_start, vim_end, distance)
   local register = "z"
   local old_register_value = vim.fn.getreg("register")
 
+  -- get lines status before deleting anything
+  local lines = vim.fn.getline(vim_start, vim_end)
+  table.sort(lines, function(a,b) return #a<#b end)
+
   -- start undojoin and delete
   local old_virtualedit = vim.o.virtualedit
   vim.o.virtualedit = "all"
@@ -38,16 +42,17 @@ function bh.move(vim_start, vim_end, distance)
   -- correct based on option to move past end column of shortest line
   local opts = require("gomove").opts
   if going_right and not opts.move_past_end_col then
-    local lines = vim.fn.getline(vim_start, vim_end)
-    table.sort(lines, function(a,b) return #a<#b end)
-    local shortest_line = #lines[1]
-    if col_end < shortest_line then
-      local shortest_line_destn = math.min(destn_start, shortest_line-width)
-      vim.fn.cursor(vim.fn.line("."), shortest_line_destn)
+    local shortest_line_width = #lines[1]
+    if col_end < shortest_line_width then
+      if destn_start < shortest_line_width then
+        vim.fn.cursor(vim.fn.line("."), destn_start)
+      else
+        vim.fn.cursor(vim.fn.line("."), shortest_line_width)
+        vim.cmd('normal!'..width..'h')
+      end
     else
       -- don't move anymore
-      vim.cmd('normal!u')
-      return false
+      vim.fn.cursor(vim.fn.line("."), col_start)
     end
   end
 
