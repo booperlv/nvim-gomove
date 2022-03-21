@@ -13,35 +13,45 @@ function bh.move(vim_start, vim_end, distance)
   local old_register_value = vim.fn.getreg("register")
 
   -- start undojoin and delete
+  local old_virtualedit = vim.o.virtualedit
+  vim.o.virtualedit = "all"
+
   local undo = require("gomove.undo")
   undo.Handle((going_right and "right" or "left"))
-  vim.cmd("silent! normal! \""..register.."x")
+  vim.cmd("normal! \""..register.."x")
 
   -- go to new destination
   local destn_start
-  local old_virtualedit = vim.o.virtualedit
-  vim.o.virtualedit = "all"
-  if going_right then
-    vim.cmd('normal!'..distance..'l')
-  else
-    vim.cmd('normal!'..-distance..'h')
+  for _=1, math.abs(distance) do
+    local last_destn = destn_start
+    if going_right then
+      vim.cmd('normal!l')
+    else
+      vim.cmd('normal!h')
+    end
+    destn_start = vim.fn.col(".")
+    if last_destn == destn_start then
+      local single_distance = (going_right and 1 or -1)
+      destn_start = destn_start + single_distance
+    end
   end
-  destn_start = vim.fn.col(".")
   -- correct based on option to move past end column of shortest line
   local opts = require("gomove").opts
-  local lines = vim.fn.getline(vim_start, vim_end)
   if going_right and not opts.move_past_end_col then
-    local shortest_line = table.sort(lines, function(a,b) return #a<#b end)
+    local lines = vim.fn.getline(vim_start, vim_end)
+    table.sort(lines, function(a,b) return #a<#b end)
+    local shortest_line = #lines[1]
     if col_end < shortest_line then
-      destn_start = math.min(destn_start, shortest_line-width)
+      local shortest_line_destn = math.min(destn_start, shortest_line-width)
+      vim.fn.cursor(vim.fn.line("."), shortest_line_destn)
     else
       -- don't move anymore
+      vim.cmd('normal!u')
       return false
     end
   end
 
   -- paste
-  vim.fn.cursor(vim.fn.line("."), destn_start)
   vim.cmd("silent! normal! \""..register.."P")
   -- fix register and virtualedit
   vim.o.virtualedit = old_virtualedit
