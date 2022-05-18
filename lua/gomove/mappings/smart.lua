@@ -1,5 +1,20 @@
 local M = {}
 
+local function IsVisualFromStart(mode)
+  if mode == 'v' then
+    local selection_start = vim.api.nvim_buf_get_mark(0, "<")
+    local selection_end = vim.api.nvim_buf_get_mark(0, ">")
+    -- start of selection is at 0
+    if selection_start[2] == 0 then
+      -- more than 1 line selected
+      if selection_end[1]-selection_start[1] > 0  then
+        return true
+      end
+    end
+    return false
+  end
+end
+
 function M.NormalLeft(duplicate, distance)
   local plugToUse = (duplicate and [[\<Plug>GoNDBlockLeft]] or [[\<Plug>GoNMBlockLeft]])
   vim.cmd('execute "normal'..distance..plugToUse..'"')
@@ -42,8 +57,9 @@ function M.NormalUp(duplicate, distance)
 end
 function M.VisualUp(duplicate, distance)
   local mode = vim.fn.visualmode()
+  local condition = (mode == 'V' or IsVisualFromStart(mode))
   vim.cmd('normal! gv')
-  if mode == 'V' then
+  if condition then
     local plugToUse = (duplicate and [[\<Plug>GoVDLineUp]] or [[\<Plug>GoVMLineUp]])
     vim.cmd('execute "normal'..distance..plugToUse..'"')
   else
@@ -58,8 +74,9 @@ function M.NormalDown(duplicate, distance)
 end
 function M.VisualDown(duplicate, distance)
   local mode = vim.fn.visualmode()
+  local condition = (mode == 'V' or IsVisualFromStart(mode))
   vim.cmd('normal! gv')
-  if mode == 'V' then
+  if condition then
     local plugToUse = (duplicate and [[\<Plug>GoVDLineDown]] or [[\<Plug>GoVMLineDown]])
     vim.cmd('execute "normal'..distance..plugToUse..'"')
   else
