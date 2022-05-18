@@ -32,7 +32,10 @@
 ## Planned
 
 <!-- this might have to support specifically a few plugins such as hop,
-lightspeed etc.-->
+lightspeed etc. alternatively, this could be an entirely separate plugin as this
+mostly revolves around the concept of deleting and pasting to positions, rather
+than "moving" them by hand. However, there is much discussion and planning to be
+done for this -->
 - [ ] motions (handles anything as long we can del-paste to new position)
   - [ ] handle-motions.lua (get new position of motion and report)
   - [ ] init.lua (move, duplicate)
@@ -54,9 +57,8 @@ lightspeed etc.-->
     - [x] handle_vertical
     - [ ] block
       - [ ] vertical
-        (functionality doesn't always works as expected)
-      - [ ] horizontal
-        (functionality fixes - such as with unicode 2 width chars)
+        (fix behavior with multi-width characters)
+      - [x] horizontal
     - [ ] line
       - [ ] vertical
         (functionality is perfect, but commenting and cleanup)
