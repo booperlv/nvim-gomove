@@ -1,7 +1,7 @@
 local lv = {}
 
 function lv.move(vim_start, vim_end, distance)
-  if vim.o.modifiable == 0 or distance == 0 then
+  if not vim.o.modifiable or distance == 0 then
     return false
   end
 
@@ -62,7 +62,7 @@ function lv.move(vim_start, vim_end, distance)
 end
 
 function lv.duplicate(vim_start, vim_end, count)
-  if vim.o.modifiable == 0 or count == 0 then
+  if not vim.o.modifiable or count == 0 then
     return false
   end
 
